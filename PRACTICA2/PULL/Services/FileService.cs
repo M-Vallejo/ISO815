@@ -63,6 +63,8 @@ namespace PULL.Services
                 if (empleados.Count != (totaldata))
                 {
                     MessageBox.Show("Error al leer el archivo, la cantidad de registros leidos es diferente a la cantidad total", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                    return new List<nominaEmpresas>();
                 }
                 return empleados;
             }
