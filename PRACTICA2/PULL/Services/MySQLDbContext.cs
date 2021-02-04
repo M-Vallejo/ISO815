@@ -1,14 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using PUSH.Models;
+using PULL.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace PUSH.Services
+namespace PULL.Services
 {
     internal class MySQLDbContext: DbContext
     {
-        public DbSet<Employee> Employees { get; set; }
+        public DbSet<nominaEmpresas> NominaEmpresas { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseMySql("Server=localhost;Database=ISO815;Uid=Alvaro;Pwd=armp0208;");
