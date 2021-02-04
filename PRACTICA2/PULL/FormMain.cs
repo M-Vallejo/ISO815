@@ -34,36 +34,40 @@ namespace PULL
             {
                 string path = this.filePath = openFileDialog1.FileName;
                 var empleados = FileService.GetEmpleados(path);
-                var empresaDocumento = empleados[0].DocumentoEmpresa;
-                var fecha = empleados[0].Fecha;
-
-
-                var data1 = _database.NominaEmpresas.ToList();
-                var data = _database.NominaEmpresas.Where(x => x.DocumentoEmpresa == empresaDocumento && x.Fecha == fecha).ToList();
-
-                if (data.Count >= 1)
+                if (empleados.Count > 0 )
                 {
-                    MessageBox.Show("Este archivo ya sido insertado", "Alerta", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
+                    var empresaDocumento = empleados[0].DocumentoEmpresa;
+                    var fecha = empleados[0].Fecha;
+
+
+                    var data1 = _database.NominaEmpresas.ToList();
+                    var data = _database.NominaEmpresas.Where(x => x.DocumentoEmpresa == empresaDocumento && x.Fecha == fecha).ToList();
+
+                    if (data.Count >= 1)
+                    {
+                        MessageBox.Show("Este archivo ya sido insertado", "Alerta", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
+
+
+                    txtCuenta.Text = empleados[0].CuentaEmpresa;
+                    txtTipoDocumento.Text = empleados[0].TipoDocumento == "P" ? "Pasaporte" : empleados[0].TipoDocumento == "C" ? "Cedula" : "RNC";
+                    txtDocumento.Text = empresaDocumento;
+                    textFecha.Text = fecha;
+
+                    foreach (var empleado in empleados)
+                    {
+                        var tipoDocumento = empleado.TipoDocumento == "P" ? "Pasaporte" : empleado.TipoDocumento == "C" ? "Cedula" : "RNC";
+                        var row = new string[] { empleado.NumCuenta.ToString(), tipoDocumento, empleado.Documento, empleado.Monto.ToString() };
+
+                        var lvi = new ListViewItem(row);
+                        lvi.Tag = empleado;
+
+                        listView1.Items.Add(lvi);
+
+                    }
                 }
-
-
-                txtCuenta.Text = empleados[0].CuentaEmpresa;
-                txtTipoDocumento.Text = empleados[0].TipoDocumento == "P" ? "Pasaporte" : empleados[0].TipoDocumento == "C" ? "Cedula" : "RNC";
-                txtDocumento.Text = empresaDocumento;
-                textFecha.Text = fecha;
-
-                foreach (var empleado in empleados)
-                {
-                    var tipoDocumento = empleado.TipoDocumento == "P" ? "Pasaporte" : empleado.TipoDocumento == "C" ? "Cedula" : "RNC";
-                    var row = new string[] { empleado.NumCuenta.ToString(), tipoDocumento, empleado.Documento, empleado.Monto.ToString() };
-
-                    var lvi = new ListViewItem(row);
-                    lvi.Tag = empleado;
-
-                    listView1.Items.Add(lvi);
-
-                }
+                
 
             }
         }
