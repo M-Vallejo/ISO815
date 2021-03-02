@@ -11,7 +11,7 @@ namespace PUSH.Services
         public DbSet<Employee> Employees { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseMySql("Server=localhost;Database=ISO815;Uid=Alvaro;Pwd=armp0208;");
+            optionsBuilder.UseMySql("Server=localhost;Database=ISO815;Uid=admin;Pwd=123456;");
             base.OnConfiguring(optionsBuilder);
         }
     }
