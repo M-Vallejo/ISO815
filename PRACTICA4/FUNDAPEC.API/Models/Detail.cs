@@ -13,7 +13,7 @@ namespace FUNDAPEC.API.Models
         [JsonIgnore]
         public int Id { get; set; }
         public char TipoDocumento { get; set; }
-        public char NumeroDocumento { get; set; }
+        public string NumeroDocumento { get; set; }
         public string Matricula { get; set; }
         public decimal Monto { get; set; }
         public char TipoPago { get; set; }
