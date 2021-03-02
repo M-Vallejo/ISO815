@@ -11,5 +11,6 @@ namespace FUNDAPEC.API.Models
         public string RNC { get; set; }
         public decimal MontoTotal { get; set; }
         public int CantidadRegistros { get; set; }
+        public DateTime FechaPago { get; set; }
     }
 }

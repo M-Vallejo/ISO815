@@ -18,6 +18,7 @@ namespace FUNDAPEC.API.Models
                 CantidadRegistros = detalles.Count(),
                 MontoTotal = detalles.Sum(x=> x.Monto),
                 RNC = "401014017",
+                FechaPago = DateTime.Now
             };
 
             this.Detalles = detalles;
