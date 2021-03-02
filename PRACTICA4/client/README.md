@@ -1,4 +1,4 @@
-# practica4-client
+# client
 
 ## Project setup
 ```
