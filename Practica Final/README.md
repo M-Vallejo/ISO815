@@ -130,4 +130,4 @@
   - Consulta
 
 #### Módulos Administrador
-- Todos los módulos de usuario más los de administrador.
+- Todos.
