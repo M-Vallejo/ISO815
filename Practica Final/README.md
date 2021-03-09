@@ -68,7 +68,7 @@
   - Web API.
   - Uso de JWT para autenticación (no debe permitir acceder a un recurso que no posea un token de autorización).
   - Uso de EntityFrameworkCore.
-  - Integración don base de datos SQL, pero que sea facilmente escalable a MySQL/MariaDB.
+  - Integración con base de datos SQL, pero que sea facilmente escalable a MySQL/MariaDB.
   - Las peticiones deben ser retornadas en JSON.
   - La contraseña debe insertarse encriptada (HASH) en base de datos. (Importancia: baja)
 
