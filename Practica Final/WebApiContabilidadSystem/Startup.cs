@@ -17,6 +17,8 @@ namespace WebApiContabilidadSystem
 {
     public class Startup
     {
+        private const string DEVELOPMENT_CORS_POLICE = "AllowVueJsDev";
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -31,6 +33,15 @@ namespace WebApiContabilidadSystem
             services.AddDbContext<ContabilidadDbContext>(options => {
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             });
+            services.AddCors(option => 
+            {
+                option.AddPolicy(DEVELOPMENT_CORS_POLICE, police =>
+                {
+                    police.WithOrigins("http://localhost:8080")
+                    .AllowAnyMethod()
+                    .AllowAnyHeader();
+                });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -44,6 +55,10 @@ namespace WebApiContabilidadSystem
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+#if DEBUG
+            app.UseCors(DEVELOPMENT_CORS_POLICE);
+#endif
 
             app.UseAuthorization();
 
