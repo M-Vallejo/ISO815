@@ -136,6 +136,7 @@
 - Administrador
    ```json
     {
+      "id": 1,
       "nombre": "Michael Vallejo",
       "nombre_usuario": "MVALLEJO",
       "rol": 1
@@ -146,6 +147,7 @@
  - Usuario
    ```json
     {
+      "id": 2,
       "nombre": "Javier Mercedes",
       "nombre_usuario": "JMERCEDES",
       "rol": 0
