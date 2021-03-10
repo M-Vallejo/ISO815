@@ -1,0 +1,35 @@
+<template>
+    <v-app-bar app color="indigo" dark>
+        <v-toolbar-title>Sistema Contabilidad</v-toolbar-title>
+        <v-spacer />
+        <v-menu left bottom :close-on-content-click="false"  v-if="getLoggedStatus">
+            <template v-slot:activator="{ on }">
+                <v-btn icon v-on="on">
+                    <v-icon>more_vert</v-icon>
+                </v-btn>
+            </template>
+            <v-list>
+                <v-list-item link>
+                    <v-list-item-icon>
+                        <v-icon>directions_run</v-icon>
+                    </v-list-item-icon>
+                    <v-list-item-content>Cerrar Sesion</v-list-item-content>
+                </v-list-item>
+            </v-list>
+        </v-menu>
+    </v-app-bar>
+</template>
+
+<script>
+import { mapGetters, mapActions } from 'vuex';
+
+export default {
+    name: 'AppBar',
+    computed: {
+        ...mapGetters(['getLoggedStatus'])
+    },
+    methods: {
+        ...mapActions(['logout'])
+    }
+}
+</script>
