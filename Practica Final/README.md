@@ -130,4 +130,25 @@
   - Consulta
 
 #### Módulos Administrador
-- Todos.
+- Todos
+
+## Token
+- Administrador
+   ```json
+    {
+      "nombre": "Michael Vallejo",
+      "nombre_usuario": "MVALLEJO",
+      "rol": 1
+    }
+   ```
+    > eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJub21icmUiOiJNaWNoYWVsIFZhbGxlam8iLCJub21icmVfdXN1YXJpbyI6Ik1WQUxMRUpPIiwicm9sIjoxfQ.SGzlHreu_WIXZGloxaKQtTzI_7sTYGH_Fo1nftob7Gs
+
+ - Usuario
+   ```json
+    {
+      "nombre": "Javier Mercedes",
+      "nombre_usuario": "JMERCEDES",
+      "rol": 0
+    }
+   ```
+   > eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJub21icmUiOiJKYXZpZXIgTWVyY2VkZXMiLCJub21icmVfdXN1YXJpbyI6IkpNRVJDRURFUyIsInJvbCI6Mn0.zTKYxEma8-i0MyRV_N-faKno_9dGiiKSyMolPtm0Dbo
