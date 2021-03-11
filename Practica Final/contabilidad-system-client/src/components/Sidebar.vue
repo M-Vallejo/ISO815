@@ -22,7 +22,22 @@ export default {
         ...mapGetters(['getLoggedStatus']),
         links() {
             return [
+                {
+                    to: 'home',
+                    text: "Dashboard",
+                    icon: 'mdi-home'
+                },
+                {
+                    to: 'home',
+                    text: "Proveedores",
+                    icon: 'mdi-account'
+                },
 
+                {
+                    to: 'home',
+                    text: "Conceptos de Pago",
+                    icon: 'mdi-account'
+                }
             ]
         }
     }

@@ -53,7 +53,7 @@ namespace WebApiContabilidadSystem.Controllers
         }
 
         [HttpPost]
-        public ActionResult Login([FromForm] LoginViewModel model) 
+        public ActionResult Login([FromBody] LoginViewModel model) 
         {
             const string invalidUsernameOrPasswordMessage = "Usuario y/o contraseña incorrectos";
 
@@ -69,7 +69,6 @@ namespace WebApiContabilidadSystem.Controllers
             if (user is null) return Unauthorized(invalidUsernameOrPasswordMessage);
 
             string token = this.GenerateJwtToken(user);
-            var result = JsonSerializer.Serialize(token);
 
             return Ok(token);
         }

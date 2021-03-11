@@ -14,7 +14,7 @@ const actions = {
     login({ commit }, user) {
         return new Promise((resolve, reject) => {
             http
-                .post('auth/login', {
+                .post('account/Login', {
                     username: user.username,
                     password: user.password
                 })
