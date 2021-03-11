@@ -19,10 +19,13 @@ namespace WebApiContabilidadSystem.Controllers
             _db = db;
         }
 
+        [HttpGet]
         public IEnumerable<CONCEPTO_PAGO> Get()
         {
             return _db.ConceptoPago.ToList();
         }
+
+        [HttpGet("{id}")]
         public IEnumerable<CONCEPTO_PAGO>GetConceptoPagoByEstatus(int Estado)
         {
             var conceptosPagos = _db.ConceptoPago.Where(x => x.ESTADO == Estado).ToList();
