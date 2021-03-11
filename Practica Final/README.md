@@ -183,3 +183,93 @@
     Respuesta
     - 401 (unauthorized) si el token es inválido
     - Token renovado si el token anterior es válido y aún no ha expirado
+ 
+ - ###### Obtener Todos los proveedores
+       > HTTP GET
+       > https://localhost:44348/api/proveedores/get
+        
+         Respuesta
+    - 401 (unauthorized) si el token es inválido
+    - 200 Una lista de Proveedores. 
+
+ - ###### Obtener proveedores por estado
+        >HTTP GET
+        >https://localhost:44348/api/proveedores/GetConceptoPagoByEstatus/id
+        
+
+        Parámetros (Query)
+        ```c#
+            id: int
+        ```
+        Respuesta
+    - 401 (unauthorized) si el token es inválido
+    - 200 Lista de proveedores por estado.
+
+- ###### Obtener proveedores por id
+        >Http GET
+        >https://localhost:44348/api/proveedores/GetProveedorById/id
+
+        Parámetros ()
+        ```c#
+            id: int
+        ```
+        
+        Respuesta
+    - 401 (unauthorized) si el token es inválido
+    - 200 Lista de proveedores por estado.
+    - 404 No encontro el registro.
+    
+ - ###### Crear Proveedor
+        >Http Post
+        >https://localhost:44348/api/proveedores/CreateProveedor
+        
+        Parámetros (Body)
+        ```c#
+            "nombre": string,
+            "tipo_persona": int,
+            "tipo_documento": int,
+            "numero_documento": string,
+            "balance":decimal
+        ```
+            Respuesta
+    - 401 (unauthorized) si el token es inválido
+    - 200 Crea un nuevo proveedor.
+    - 500 Error al crear el registro.
+    
+   - ###### Editar Proveedor
+        >Http Put
+        >https://localhost:44348/api/proveedores/CreateProveedor/id
+              
+        Parámetros (Body)
+        ```c#
+            nombre: string
+            tipo_persona: int
+            tipo_documento: int
+            numero_documento: string
+            balance: decimal: decimal
+            estado: int
+            
+        ```
+            Respuesta
+    - 401 (unauthorized) si el token es inválido
+    - 200 Edita el registro.
+    - 404 Registro no encontrado
+    - 500 Error al editar el registro.
+
+  - ###### Editar Proveedor
+        >Http Put
+        >https://localhost:44348/api/proveedores/ChangeEstadoProveedores?id=5&estado=2
+              
+        Parámetros (Query)
+        ```c#
+            id: int,
+            estado: int
+            
+        ```
+            Respuesta
+    - 401 (unauthorized) si el token es inválido
+    - 200 Edita el registro.
+    - 404 Registor no encontrado
+    - 500 Error al editar el registro.
+
+
