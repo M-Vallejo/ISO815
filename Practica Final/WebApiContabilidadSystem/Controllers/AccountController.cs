@@ -68,7 +68,7 @@ namespace WebApiContabilidadSystem.Controllers
 
             if (user is null) return Unauthorized(invalidUsernameOrPasswordMessage);
 
-            string token = this.GenerateJwtToken(user);
+            var token = new TokenViewModel { Token = this.GenerateJwtToken(user) };
 
             return Ok(token);
         }

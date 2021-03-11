@@ -15,4 +15,8 @@ namespace WebApiContabilidadSystem.Models.ViewModels
             return !(string.IsNullOrWhiteSpace(this.Username) || string.IsNullOrWhiteSpace(Password));
         }
     }
+    public class TokenViewModel
+    {
+        public string Token { get; set; }
+    }
 }
