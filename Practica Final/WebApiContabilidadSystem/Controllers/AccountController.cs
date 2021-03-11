@@ -15,6 +15,7 @@ using System.Text;
 using System.Security.Claims;
 using Microsoft.IdentityModel.Tokens;
 using System.Text.Json;
+using System.Reflection;
 
 namespace WebApiContabilidadSystem.Controllers
 {
@@ -75,12 +76,20 @@ namespace WebApiContabilidadSystem.Controllers
 
         [HttpGet]
         [Authorize]
-        public ActionResult IsAuthorize() 
+        public ActionResult IsAuthorized() 
         {
             var user = (USUARIO)Request.HttpContext.Items["User"];
             string newToken = this.GenerateJwtToken(user);
 
             return Ok(newToken);
+        }
+
+
+        [HttpGet]
+        public ActionResult Index() 
+        {
+            var appVersion = typeof(Program).Assembly.GetCustomAttribute<AssemblyFileVersionAttribute>().Version;
+            return Ok(appVersion);
         }
     }
 }

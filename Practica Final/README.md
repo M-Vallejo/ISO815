@@ -173,7 +173,7 @@
 
 - ##### Validar y renovar token
     > HTTP GET
-    > https://localhost:44348/api/account/IsAutorized
+    > https://localhost:44348/api/account/IsAuthorized
     
     Parámetros (Header)
     ```c#
