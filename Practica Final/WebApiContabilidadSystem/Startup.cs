@@ -42,9 +42,10 @@ namespace WebApiContabilidadSystem
             {
                 option.AddPolicy(DEVELOPMENT_CORS_POLICE, police =>
                 {
-                    police.WithOrigins("http://localhost:8080")
+                    police
                     .AllowAnyMethod()
-                    .AllowAnyHeader();
+                    .AllowAnyHeader()
+                    .AllowAnyOrigin().AllowCredentials();
                 });
             });
         }
