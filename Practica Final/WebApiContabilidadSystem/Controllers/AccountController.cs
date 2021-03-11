@@ -77,10 +77,7 @@ namespace WebApiContabilidadSystem.Controllers
         [Authorize]
         public ActionResult IsAuthorized() 
         {
-            var user = (USUARIO)Request.HttpContext.Items["User"];
-            string newToken = this.GenerateJwtToken(user);
-
-            return Ok(newToken);
+            return Ok((USUARIO)Request.HttpContext.Items["User"]);
         }
 
 
