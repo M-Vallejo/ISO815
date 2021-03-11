@@ -168,7 +168,7 @@
     ```
     
     Respuesta
-    - 404 + mensaje si los datos están incorrectos.
+    - 401 (unauthorized) + mensaje si los datos están incorrectos.
     - Token si los datos están correctos.
 
 - ##### Validar y renovar token
@@ -181,5 +181,5 @@
     ```
     
     Respuesta
-    - 404 si el token es inválido
+    - 401 (unauthorized) si el token es inválido
     - Token renovado si el token anterior es válido y aún no ha expirado
