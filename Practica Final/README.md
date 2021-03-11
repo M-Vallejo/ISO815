@@ -194,7 +194,7 @@
 
  - ###### Obtener proveedores por estado
         >HTTP GET
-        >https://localhost:44348/api/proveedores/GetConceptoPagoByEstatus/id
+        >https://localhost:44348/api/proveedores/GetProveedoresByEstatus/id
         
 
         Parámetros (Query)
@@ -216,7 +216,7 @@
         
         Respuesta
     - 401 (unauthorized) si el token es inválido
-    - 200 Lista de proveedores por estado.
+    - 200 un proveedor.
     - 404 No encontro el registro.
     
  - ###### Crear Proveedor
@@ -238,10 +238,11 @@
     
    - ###### Editar Proveedor
         >Http Put
-        >https://localhost:44348/api/proveedores/CreateProveedor/id
+        >https://localhost:44348/api/proveedores/EditProveedor
               
         Parámetros (Body)
         ```c#
+            proveedor_id: int
             nombre: string
             tipo_persona: int
             tipo_documento: int
@@ -259,6 +260,88 @@
   - ###### Editar Proveedor
         >Http Put
         >https://localhost:44348/api/proveedores/ChangeEstadoProveedores?id=5&estado=2
+              
+        Parámetros (Query)
+        ```c#
+            id: int,
+            estado: int
+            
+        ```
+            Respuesta
+    - 401 (unauthorized) si el token es inválido
+    - 200 Edita el registro.
+    - 404 Registor no encontrado
+    - 500 Error al editar el registro.
+
+
+
+ - ###### Obtener Todos los Conceptos de Pago
+       > HTTP GET
+       > https://localhost:44348/api/ConceptoPago/get
+        
+         Respuesta
+    - 401 (unauthorized) si el token es inválido
+    - 200 Una lista de Concepto de Pagos. 
+ - ###### Obtener Conceptos de pagos
+        >HTTP GET
+        >https://localhost:44348/api/proveedores/GetConceptoPagoByEstatus/id
+        
+
+        Parámetros (Query)
+        ```c#
+            id: int
+        ```
+        Respuesta
+    - 401 (unauthorized) si el token es inválido
+    - 200 Lista de concepto de pagos por estado.
+
+- ###### Obtener Concepto de pagos por id
+        >Http GET
+        >https://localhost:44348/api/ConceptoPago/GetConceptoPagoById/id
+
+        Parámetros ()
+        ```c#
+            id: int
+        ```
+        
+        Respuesta
+    - 401 (unauthorized) si el token es inválido
+    - 200 Un concepto de pago.
+    - 404 No encontro el registro.
+    
+ - ###### Crear Concepto de pagos
+        >Http Post
+        >https://localhost:44348/api/ConceptoPago/CreateConceptoPago
+        
+        Parámetros (Body)
+        ```c#
+            descripcion: string
+        ```
+            Respuesta
+    - 401 (unauthorized) si el token es inválido
+    - 200 Crea un nuevo concepto de pago.
+    - 500 Error al crear el registro.
+    
+   - ###### Editar Concepto de pagos
+        >Http Put
+        >https://localhost:44348/api/ConceptoPago/EditConceptoPago
+              
+        Parámetros (Body)
+        ```c#
+            Concepto_pago_id: int,
+            descripcion: string,
+            estado: string
+            
+        ```
+            Respuesta
+    - 401 (unauthorized) si el token es inválido
+    - 200 Edita el registro.
+    - 404 Registro no encontrado
+    - 500 Error al editar el registro.
+
+  - ###### Editar Proveedor
+        >Http Put
+        >https://localhost:44348/api/ConceptoPago/ChangeEstadoConceptoPago?id=5&estado=2
               
         Parámetros (Query)
         ```c#
