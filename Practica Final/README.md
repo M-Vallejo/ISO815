@@ -194,12 +194,12 @@
 
  - ###### Obtener proveedores por estado
         >HTTP GET
-        >https://localhost:44348/api/proveedores/GetProveedoresByEstatus/id
+        >https://localhost:44348/api/proveedores/GetProveedoresByEstatus/{Estado}
         
 
-        Parámetros (Query)
+        Parámetros (Params)
         ```c#
-            id: int
+            Estado: int
         ```
         Respuesta
     - 401 (unauthorized) si el token es inválido
@@ -284,12 +284,12 @@
     - 200 Una lista de Concepto de Pagos. 
  - ###### Obtener Conceptos de pagos
         >HTTP GET
-        >https://localhost:44348/api/proveedores/GetConceptoPagoByEstatus/id
+        >https://localhost:44348/api/ConceptoPago/GetConceptoPagoByEstatus/{Estado}
         
 
-        Parámetros (Query)
+        Parámetros (Params)
         ```c#
-            id: int
+            Estado: int
         ```
         Respuesta
     - 401 (unauthorized) si el token es inválido
@@ -330,7 +330,7 @@
         ```c#
             Concepto_pago_id: int,
             descripcion: string,
-            estado: string
+            estado: int
             
         ```
             Respuesta
