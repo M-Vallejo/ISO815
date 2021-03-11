@@ -130,4 +130,56 @@
   - Consulta
 
 #### Módulos Administrador
-- Todos.
+- Todos
+
+## Token
+- Administrador
+   ```json
+    {
+      "id": 1,
+      "nombre": "Michael Vallejo",
+      "nombre_usuario": "MVALLEJO",
+      "rol": 1
+    }
+   ```
+    > eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJub21icmUiOiJNaWNoYWVsIFZhbGxlam8iLCJub21icmVfdXN1YXJpbyI6Ik1WQUxMRUpPIiwicm9sIjoxfQ.SGzlHreu_WIXZGloxaKQtTzI_7sTYGH_Fo1nftob7Gs
+
+ - Usuario
+   ```json
+    {
+      "id": 2,
+      "nombre": "Javier Mercedes",
+      "nombre_usuario": "JMERCEDES",
+      "rol": 0
+    }
+   ```
+   > eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJub21icmUiOiJKYXZpZXIgTWVyY2VkZXMiLCJub21icmVfdXN1YXJpbyI6IkpNRVJDRURFUyIsInJvbCI6Mn0.zTKYxEma8-i0MyRV_N-faKno_9dGiiKSyMolPtm0Dbo
+
+## Endpoint
+
+- ##### Login
+    > HTTP POST
+    > https://localhost:44348/api/account/Login
+
+    Parámetros (Body)
+    ```c#
+        username: string
+        password: string
+    ```
+    
+    Respuesta
+    - 401 (unauthorized) + mensaje si los datos están incorrectos.
+    - Token si los datos están correctos.
+
+- ##### Validar y renovar token
+    > HTTP GET
+    > https://localhost:44348/api/account/IsAuthorized
+    
+    Parámetros (Header)
+    ```c#
+        Authorization: string
+    ```
+    
+    Respuesta
+    - 401 (unauthorized) si el token es inválido
+    - Token renovado si el token anterior es válido y aún no ha expirado

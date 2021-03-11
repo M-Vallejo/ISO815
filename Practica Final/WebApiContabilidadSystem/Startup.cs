@@ -12,11 +12,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WebApiContabilidadSystem.Data;
+using WebApiContabilidadSystem.Models;
+using WebApiContabilidadSystem.Utils;
 
 namespace WebApiContabilidadSystem
 {
     public class Startup
     {
+        private const string DEVELOPMENT_CORS_POLICE = "AllowVueJsDev";
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -30,6 +34,18 @@ namespace WebApiContabilidadSystem
             services.AddControllers();
             services.AddDbContext<ContabilidadDbContext>(options => {
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+            });
+
+            services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
+
+            services.AddCors(option => 
+            {
+                option.AddPolicy(DEVELOPMENT_CORS_POLICE, police =>
+                {
+                    police.WithOrigins("http://localhost:8080")
+                    .AllowAnyMethod()
+                    .AllowAnyHeader();
+                });
             });
         }
 
@@ -45,7 +61,10 @@ namespace WebApiContabilidadSystem
 
             app.UseRouting();
 
-            app.UseAuthorization();
+#if DEBUG
+            app.UseCors(DEVELOPMENT_CORS_POLICE);
+#endif
+            app.UseMiddleware<JwtMiddleware>();
 
             app.UseEndpoints(endpoints =>
             {
