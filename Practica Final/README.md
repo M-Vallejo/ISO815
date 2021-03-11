@@ -166,6 +166,11 @@
         username: string
         password: string
     ```
+    
+    Respuesta
+    - 404 + mensaje si los datos están incorrectos.
+    - Token si los datos están correctos.
+
 - ##### Validar y renovar token
     > HTTP GET
     > https://localhost:44348/api/account/IsAutorized
@@ -174,3 +179,7 @@
     ```c#
         Authorization: string
     ```
+    
+    Respuesta
+    - 404 si el token es inválido
+    - Token renovado si el token anterior es válido y aún no ha expirado
