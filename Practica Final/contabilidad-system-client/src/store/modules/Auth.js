@@ -15,7 +15,7 @@ const actions = {
         return new Promise((resolve, reject) => {
             http
                 .post('auth/login', {
-                    email: user.email,
+                    username: user.username,
                     password: user.password
                 })
                 .then((response) => {

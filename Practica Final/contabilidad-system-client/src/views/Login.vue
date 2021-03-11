@@ -9,13 +9,13 @@
                         </v-toolbar>
                         <v-card-text>
                             <v-text-field
-                                id="email"
-                                label="Email"
+                                id="username"
+                                label="Usuario"
                                 prepend-icon="person"
-                                type="email"
+                                type="text"
                                 required
-                                :rules="[rules.required, rules.email]"
-                                v-model="email"
+                                :rules="[rules.required]"
+                                v-model="username"
                                 autofocus
                             />
                             <v-text-field
@@ -47,7 +47,7 @@ export default {
     name: "Login",
     data: () => {
         return {
-            email: "",
+            username: "",
             password: "",
             errors: []
         }
@@ -59,11 +59,11 @@ export default {
     },
     methods: {
         validateData() {
-            let email = document.getElementById("email");
+            let username = document.getElementById("username");
             let password = document.getElementById("password");
 
-            if (!email.checkValidity()) {
-                email.focus();
+            if (!username.checkValidity()) {
+                username.focus();
                 return false;
             }
 
@@ -86,7 +86,7 @@ export default {
                         Swal.showLoading();
 
                         const user = {
-                            email: this.email.trim().toLowerCase(),
+                            username: this.username.trim(),
                             password: this.password.trim()
                         };
 
