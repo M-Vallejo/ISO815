@@ -154,3 +154,23 @@
     }
    ```
    > eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJub21icmUiOiJKYXZpZXIgTWVyY2VkZXMiLCJub21icmVfdXN1YXJpbyI6IkpNRVJDRURFUyIsInJvbCI6Mn0.zTKYxEma8-i0MyRV_N-faKno_9dGiiKSyMolPtm0Dbo
+
+## Endpoint
+
+- ##### Login
+    > HTTP POST
+    > https://localhost:44348/api/account/Login
+
+    Parámetros (Body)
+    ```c#
+        username: string
+        password: string
+    ```
+- ##### Validar y renovar token
+    > HTTP GET
+    > https://localhost:44348/api/account/IsAutorized
+    
+    Parámetros (Header)
+    ```c#
+        Authorization: string
+    ```
