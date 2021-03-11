@@ -24,6 +24,8 @@ namespace WebApiContabilidadSystem.Controllers
         {
             return _db.Proveedor.ToList();
         }
+
+        [HttpGet("{Estado}")]
         public IEnumerable<PROVEEDOR> GetProveedoresByEstatus(int Estado)
         {
             var Proveedores = _db.Proveedor.Where(x => x.ESTADO == Estado).ToList();
@@ -57,8 +59,8 @@ namespace WebApiContabilidadSystem.Controllers
             }
         }
 
-        [HttpPut("{id}")]
-        public ActionResult EditProveedor([FromBody] PROVEEDOR proveedor, int id)
+        [HttpPut]
+        public ActionResult EditProveedor([FromBody] PROVEEDOR proveedor)
         {
             try
             {
@@ -92,6 +94,7 @@ namespace WebApiContabilidadSystem.Controllers
                 if (target != null)
                 {
                     target.ESTADO = estado;
+                    _db.SaveChanges();
                     return Ok();
                 }
                 return NotFound();
@@ -100,7 +103,6 @@ namespace WebApiContabilidadSystem.Controllers
             {
                 return StatusCode(500, e.Message);
             }
-         
         }
     }
 }
