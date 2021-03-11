@@ -30,19 +30,11 @@ const actions = {
         })
     },
     logout() {
-        return new Promise((resolve, reject) => {
-            http
-                .post('auth/logout')
-                .then(() => {
-                    localStorage.clear();
-                    location.reload();
-                    resolve();
-                })
-                .catch((err) => {
-                    console.log(err);
-                    reject();
-                });
-        })
+        return new Promise((resolve) => {
+            localStorage.clear();
+            location.reload();
+            resolve();
+        });
     },
     fetchUser({ commit }) {
         http
