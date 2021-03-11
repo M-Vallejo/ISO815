@@ -20,10 +20,13 @@ namespace WebApiContabilidadSystem.Controllers
             _db = db;
         }
 
+        [HttpGet]
         public IEnumerable<CONCEPTO_PAGO> Get()
         {
             return _db.ConceptoPago.ToList();
         }
+
+        [HttpGet("{Estado}")]
         public IEnumerable<CONCEPTO_PAGO>GetConceptoPagoByEstatus(int Estado)
         {
             var conceptosPagos = _db.ConceptoPago.Where(x => x.ESTADO == Estado).ToList();
@@ -58,7 +61,7 @@ namespace WebApiContabilidadSystem.Controllers
             }
         }
 
-        [HttpPut("{id}")]
+        [HttpPut]
         public ActionResult EditConceptoPago([FromBody] CONCEPTO_PAGO conceptoPago)
         {
             try
@@ -75,7 +78,7 @@ namespace WebApiContabilidadSystem.Controllers
             }
         }
 
-        [HttpPut("{id}")]
+        [HttpPut]
         public ActionResult ChangeEstadoConceptoPago(int id, int estado)
         {
             var target = _db.ConceptoPago.FirstOrDefault(x => x.CONCEPTO_PAGO_ID == id);
@@ -83,6 +86,7 @@ namespace WebApiContabilidadSystem.Controllers
             if(target !=null)
             {
                 target.ESTADO = estado;
+                _db.SaveChanges();
                 return Ok();
             }
             return NotFound();

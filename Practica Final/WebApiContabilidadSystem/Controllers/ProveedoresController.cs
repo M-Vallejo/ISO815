@@ -24,7 +24,9 @@ namespace WebApiContabilidadSystem.Controllers
         {
             return _db.Proveedor.ToList();
         }
-        public IEnumerable<PROVEEDOR> GetConceptoPagoByEstatus(int Estado)
+
+        [HttpGet("{Estado}")]
+        public IEnumerable<PROVEEDOR> GetProveedoresByEstatus(int Estado)
         {
             var Proveedores = _db.Proveedor.Where(x => x.ESTADO == Estado).ToList();
             return Proveedores;
@@ -57,12 +59,16 @@ namespace WebApiContabilidadSystem.Controllers
             }
         }
 
-        [HttpPut("{id}")]
+        [HttpPut]
         public ActionResult EditProveedor([FromBody] PROVEEDOR proveedor)
         {
             try
             {
                 var target = _db.Proveedor.FirstOrDefault(x => x.PROVEEDOR_ID == proveedor.PROVEEDOR_ID);
+                if (target == null)
+                {
+                    return NotFound();
+                }
                 target.NOMBRE = proveedor.NOMBRE;
                 target.NUMERO_DOCUMENTO = proveedor.NUMERO_DOCUMENTO;
                 target.TIPO_DOCUMENTO = proveedor.TIPO_DOCUMENTO;
@@ -78,17 +84,25 @@ namespace WebApiContabilidadSystem.Controllers
             }
         }
 
-        [HttpPut("{id}")]
-        public ActionResult ChangeEstadoProveedores(int id, int estado)
+        [HttpPut]
+        public ActionResult ChangeEstadoProveedores([FromQuery]int id, int estado)
         {
-            var target = _db.Proveedor.FirstOrDefault(x => x.PROVEEDOR_ID == id);
-
-            if (target != null)
+            try
             {
-                target.ESTADO = estado;
-                return Ok();
+                var target = _db.Proveedor.FirstOrDefault(x => x.PROVEEDOR_ID == id);
+
+                if (target != null)
+                {
+                    target.ESTADO = estado;
+                    _db.SaveChanges();
+                    return Ok();
+                }
+                return NotFound();
             }
-            return NotFound();
+            catch (Exception e)
+            {
+                return StatusCode(500, e.Message);
+            }
         }
     }
 }
