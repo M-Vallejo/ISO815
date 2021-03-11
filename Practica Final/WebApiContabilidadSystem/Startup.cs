@@ -12,6 +12,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WebApiContabilidadSystem.Data;
+using WebApiContabilidadSystem.Models;
+using WebApiContabilidadSystem.Utils;
 
 namespace WebApiContabilidadSystem
 {
@@ -33,6 +35,9 @@ namespace WebApiContabilidadSystem
             services.AddDbContext<ContabilidadDbContext>(options => {
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             });
+
+            services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
+
             services.AddCors(option => 
             {
                 option.AddPolicy(DEVELOPMENT_CORS_POLICE, police =>
@@ -59,8 +64,7 @@ namespace WebApiContabilidadSystem
 #if DEBUG
             app.UseCors(DEVELOPMENT_CORS_POLICE);
 #endif
-
-            app.UseAuthorization();
+            app.UseMiddleware<JwtMiddleware>();
 
             app.UseEndpoints(endpoints =>
             {
