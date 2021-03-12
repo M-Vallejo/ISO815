@@ -14,12 +14,14 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
-
 export default {
     name: "Sidebar",
+    data: () => {
+        return {
+            getLoggedStatus: !!localStorage.getItem("token")
+        }
+    },
     computed: {
-        ...mapGetters(['getLoggedStatus']),
         links() {
             return [
                 {
@@ -28,18 +30,18 @@ export default {
                     icon: 'mdi-home'
                 },
                 {
-                    to: 'home',
+                    to: 'proveedores',
                     text: "Proveedores",
                     icon: 'mdi-account'
                 },
 
                 {
-                    to: 'home',
+                    to: 'conceptos',
                     text: "Conceptos de Pago",
                     icon: 'mdi-account'
                 }
             ]
         }
-    }
+    },
 }
 </script>

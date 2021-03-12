@@ -45,7 +45,7 @@ namespace WebApiContabilidadSystem
                     police
                     .AllowAnyMethod()
                     .AllowAnyHeader()
-                    .AllowAnyOrigin().AllowCredentials();
+                    .AllowAnyOrigin();
                 });
             });
         }

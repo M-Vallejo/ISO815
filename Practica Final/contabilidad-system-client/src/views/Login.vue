@@ -14,7 +14,6 @@
                                 prepend-icon="person"
                                 type="text"
                                 required
-                                :rules="[rules.required]"
                                 v-model="username"
                                 autofocus
                             />
@@ -24,7 +23,6 @@
                                 prepend-icon="lock"
                                 type="password"
                                 required
-                                :rules="[rules.required]"
                                 v-model="password"
                             />
                         </v-card-text>
@@ -48,13 +46,7 @@ export default {
     data: () => {
         return {
             username: "",
-            password: "",
-            errors: []
-        }
-    },
-    computed: {
-        rules() {
-            return this.$store.getters.getRules;
+            password: ""
         }
     },
     methods: {
@@ -85,26 +77,25 @@ export default {
                     didOpen: () => {
                         Swal.showLoading();
 
-                        const user = {
-                            username: this.username.trim(),
-                            password: this.password.trim()
-                        };
-
-                        this.$store
-                            .dispatch('login', user)
-                            .then(() => {
-                                this.$router.replace('home');
-                                location.reload();
-                                Swal.close();
+                        this.$http
+                            .post("account/Login", {
+                                Username: this.username,
+                                Password: this.password
+                            })
+                            .then((response) => {
+                                if (response.status === 200) {
+                                    localStorage.setItem("token", response.data.token);
+                                    location.reload();
+                                }
                             })
                             .catch(() => {
                                 Swal.fire({
                                     icon: 'error',
                                     title: 'Oops...',
-                                    text: "Credenciales Invalidas"
+                                    text: "ha ocurrido un error con los datos, intentelo nuevamente"
                                 });
                                 this.password = "";
-                            });
+                            })
                     }
                 });
             }

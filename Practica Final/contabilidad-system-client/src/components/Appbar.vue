@@ -2,14 +2,14 @@
     <v-app-bar app color="indigo" dark>
         <v-toolbar-title>Sistema Contabilidad</v-toolbar-title>
         <v-spacer />
-        <v-menu left bottom :close-on-content-click="false"  v-if="getLoggedStatus">
+        <v-menu left bottom :close-on-content-click="false" v-if="getLoggedStatus">
             <template v-slot:activator="{ on }">
                 <v-btn icon v-on="on">
                     <v-icon>more_vert</v-icon>
                 </v-btn>
             </template>
             <v-list>
-                <v-list-item link>
+                <v-list-item link @click="handleLogout">
                     <v-list-item-icon>
                         <v-icon>directions_run</v-icon>
                     </v-list-item-icon>
@@ -21,15 +21,29 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex';
+import Swal from 'sweetalert2'
 
 export default {
     name: 'AppBar',
-    computed: {
-        ...mapGetters(['getLoggedStatus'])
+    data: () => {
+        return {
+            getLoggedStatus: !!localStorage.getItem("token")
+        }
     },
     methods: {
-        ...mapActions(['logout'])
+        handleLogout() {
+            Swal.fire({
+                title: "Espere por favor...",
+                allowEscapeKey: false,
+                allowOutsideClick: false,
+                showConfirmButton: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                    localStorage.clear();
+                    location.reload();
+                }
+            })
+        }
     }
 }
 </script>

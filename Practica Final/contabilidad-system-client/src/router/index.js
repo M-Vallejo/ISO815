@@ -1,6 +1,9 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Login from '@/views/Login'
+import Proveedor from '@/views/Proveedor'
+import Home from '@/views/Home'
+import Conceptos from '@/views/Conceptos'
 
 Vue.use(VueRouter)
 
@@ -13,7 +16,31 @@ const routes = [
 		path: '/login',
 		name: "Login",
 		component: Login
-	}
+	},
+    {
+		path: '/home',
+		name: 'Home',
+		component: Home,
+		meta: {
+			requiresAuth: true
+		}
+	},
+    {
+        path: "/proveedores",
+		name: "Proveedores",
+		component: Proveedor,
+		meta: {
+			requiresAuth: true
+		}
+    },
+    {
+        path: "/conceptos",
+		name: "Conceptos",
+		component: Conceptos,
+		meta: {
+			requiresAuth: true
+		}
+    }
 ];
 
 const router = new VueRouter({

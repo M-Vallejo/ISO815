@@ -14,16 +14,23 @@ namespace WebApiContabilidadSystem.Models
         [Key]
         [JsonPropertyName("proveedor_id")]
         public int PROVEEDOR_ID { get; set; }
+
+        [JsonPropertyName("nombre")]
         public string NOMBRE { get; set; }
+
         [JsonPropertyName("tipo_persona")]
         public int TIPO_PERSONA { get; set; }
+
         [JsonPropertyName("tipo_documento")]
         public int TIPO_DOCUMENTO { get; set; }
+
         [JsonPropertyName("numero_documento")]
         public string NUMERO_DOCUMENTO { get; set; }
+
         [JsonPropertyName("balance")]
         [Column(TypeName = "decimal(18,2)")]
         public decimal BALANCE { get; set; }
+
         [JsonPropertyName("estado")]
         public int ESTADO { get; set; }
     }
