@@ -12,6 +12,7 @@ namespace WebApiContabilidadSystem.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
+    [Authorize]
     public class UsuarioController : ControllerBase
     {
         private readonly ContabilidadDbContext _db;
