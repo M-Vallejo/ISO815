@@ -32,13 +32,13 @@ export default {
                 {
                     to: 'proveedores',
                     text: "Proveedores",
-                    icon: 'mdi-account'
+                    icon: 'mdi-bag-personal'
                 },
 
                 {
                     to: 'conceptos',
                     text: "Conceptos de Pago",
-                    icon: 'mdi-account'
+                    icon: 'mdi-newspaper'
                 }
             ]
         }

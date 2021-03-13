@@ -51,7 +51,7 @@
                                             <v-col cols="12" sm="6" md="6">
                                                 <v-select
                                                     v-model="item.tipo_persona"
-                                                    prepend-icon="person"
+                                                    prepend-icon="mdi-office-building"
                                                     :items="personTypes"
                                                     item-value="id"
                                                     item-text="value"
@@ -64,7 +64,7 @@
                                             <v-col cols="12" sm="6" md="6">
                                                 <v-select
                                                     v-model="item.tipo_documento"
-                                                    prepend-icon="person"
+                                                    prepend-icon="mdi-script-text"
                                                     :items="documentTypes"
                                                     item-value="id"
                                                     item-text="value"
@@ -77,7 +77,7 @@
                                             <v-col cols="12" sm="6" md="6">
                                                 <v-text-field
                                                     v-model="item.numero_documento"
-                                                    prepend-icon="person"
+                                                    prepend-icon="mdi-message-text-outline"
                                                     label="Numero Documento"
                                                     required
                                                     type="text"
@@ -88,7 +88,7 @@
                                             <v-col cols="12" sm="6" md="6">
                                                 <v-text-field
                                                     v-model="item.balance"
-                                                    prepend-icon="person"
+                                                    prepend-icon="mdi-currency-usd"
                                                     label="Balance"
                                                     required
                                                     type="number"
@@ -100,7 +100,7 @@
                                             <v-col cols="12" sm="6" md="6">
                                                 <v-select
                                                     v-model="item.estado"
-                                                    prepend-icon="person"
+                                                    prepend-icon="mdi-check-decagram"
                                                     label="Estado"
                                                     required
                                                     :items="estados"
@@ -221,16 +221,12 @@ export default {
             ],
             estados: [
                 {
-                    "id": 0,
-                    "value": "Inactivo"
-                },
-                {
                     "id": 1,
                     "value": "Activo"
                 },
                 {
-                    "id": 2,
-                    "value": "Eliminado"
+                    "id": 0,
+                    "value": "Inactivo"
                 }
             ]
         }

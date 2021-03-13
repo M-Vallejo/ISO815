@@ -1,6 +1,6 @@
 <template>
     <v-app-bar app color="indigo" dark>
-        <v-toolbar-title>Sistema Contabilidad</v-toolbar-title>
+        <v-toolbar-title>Cuentas por Pagar</v-toolbar-title>
         <v-spacer />
         <v-menu left bottom :close-on-content-click="false" v-if="getLoggedStatus">
             <template v-slot:activator="{ on }">

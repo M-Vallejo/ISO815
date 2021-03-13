@@ -40,7 +40,7 @@
                                             <v-col cols="12" sm="6" md="6">
                                                 <v-text-field
                                                     v-model="item.descripcion"
-                                                    prepend-icon="person"
+                                                    prepend-icon="mdi-newspaper"
                                                     label="Descripcion"
                                                     required
                                                     type="text"
@@ -51,7 +51,7 @@
                                             <v-col cols="12" sm="6" md="6">
                                                 <v-select
                                                     v-model="item.estado"
-                                                    prepend-icon="person"
+                                                    prepend-icon="mdi-check-decagram"
                                                     label="Estado"
                                                     required
                                                     :items="estados"
@@ -122,17 +122,13 @@ export default {
             items: [],
             estados: [
                 {
-                    "id": 0,
-                    "value": "Inactivo"
-                },
-                {
                     "id": 1,
                     "value": "Activo"
                 },
                 {
-                    "id": 2,
-                    "value": "Eliminado"
-                }
+                    "id": 0,
+                    "value": "Inactivo"
+                },
             ]
         }
     },
