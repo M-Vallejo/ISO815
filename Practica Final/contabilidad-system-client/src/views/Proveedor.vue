@@ -98,14 +98,15 @@
                                                 />
                                             </v-col>
                                             <v-col cols="12" sm="6" md="6">
-                                                <v-text-field
-                                                    v-model="item.numero_documento"
+                                                <v-select
+                                                    v-model="item.estado"
                                                     prepend-icon="person"
-                                                    label="Numero Documento"
+                                                    label="Estado"
                                                     required
-                                                    type="text"
-                                                    maxlength="255"
-                                                    id="numero_documento"
+                                                    :items="estados"
+                                                    item-value="id"
+                                                    item-text="value"
+                                                    id="estado"
                                                 />
                                             </v-col>
                                         </v-row>
@@ -130,13 +131,17 @@
             <template v-slot:item.tipo_documento="{ item }">
                 {{ documentType(item.tipo_documento) }}
             </template>
+            <template v-slot:item.actions="{ item }">
+                <v-icon small class="mr-2" @click="editItem(item)">edit</v-icon>
+                <v-icon small @click="deleteItem(item.proveedor_id)">delete</v-icon>
+            </template>
         </v-data-table>
     </v-card>
 </template>
 
 <script>
 import Statusfortable from "@/components/Statusfortable";
-//import Swal from 'sweetalert2';
+import Swal from 'sweetalert2';
 
 export default {
     name: 'Proveedor',
@@ -182,6 +187,11 @@ export default {
                 {
                     text: "Estado",
                     value: "estado"
+                },
+                {
+                    text: "Acciones",
+                    value: "actions",
+                    sortable: false
                 }
             ],
             items: [],
@@ -208,6 +218,20 @@ export default {
                     "id": 2,
                     "value": "Pasaporte"
                 }
+            ],
+            estados: [
+                {
+                    "id": 0,
+                    "value": "Inactivo"
+                },
+                {
+                    "id": 1,
+                    "value": "Activo"
+                },
+                {
+                    "id": 2,
+                    "value": "Eliminado"
+                }
             ]
         }
     },
@@ -222,14 +246,184 @@ export default {
     },
     methods: {
         closeModal() {
+            this.editedIndex = -1;
             this.modal = false;
             this.item = Object.assign({}, {
-                nombre: ""
+                nombre: "",
+                tipo_persona: null,
+                tipo_documento: null,
+                numero_documento: "",
+                balance: 0,
+                estado: 1
             });
             this.$refs.form.resetValidation();
         },
-        saveItem() {
+        editItem(item) {
+            this.editedIndex = this.items.indexOf(item);
+            this.item = Object.assign({}, item);
+            this.modal = true;
+        },
+        validateData() {
+            let nombre = document.getElementById("nombre");
+            let tipo_persona = document.getElementById("tipo_persona");
+            let tipo_documento = document.getElementById("tipo_documento");
+            let numero_documento = document.getElementById("numero_documento");
+            let balance = document.getElementById("balance");
+            let estado = document.getElementById("estado");
 
+            if (!nombre.checkValidity()) {
+                nombre.focus();
+                return false;
+            }
+
+            if (!tipo_persona.checkValidity()) {
+                tipo_persona.focus();
+                return false;
+            }
+
+            if (!tipo_documento.checkValidity()) {
+                tipo_documento.focus();
+                return false;
+            }
+
+            if (!numero_documento.checkValidity()) {
+                numero_documento.focus();
+                return false;
+            }
+
+            if (!balance.checkValidity()) {
+                balance.focus();
+                return false;
+            }
+
+            if (!estado.checkValidity()) {
+                estado.focus();
+                return false;
+            }
+
+            return true;
+        },
+        saveItem() {
+            if (this.validateData()) {
+                Swal.fire({
+                    title: "Espere por favor",
+                    allowEscapeKey: false,
+                    allowOutsideClick: false,
+                    showConfirmButton: false,
+                    didOpen: () => {
+                        Swal.showLoading();
+
+                        //create item
+                        if (this.editedIndex === -1)
+                        {
+                            this.$http
+                                .post('proveedores/CreateProveedor', {
+                                    nombre: this.item.nombre,
+                                    tipo_persona: parseInt(this.item.tipo_persona),
+                                    tipo_documento: parseInt(this.item.tipo_documento),
+                                    numero_documento: this.item.numero_documento,
+                                    balance: parseFloat(this.item.balance)
+                                })
+                                .then((response) => {
+                                    if (response.status === 200 && response)
+                                    {
+                                         Swal.fire({
+                                            title:"Elemento creado exitosamente",
+                                            icon: 'success',
+                                            preConfirm: () => {
+                                                this.closeModal();
+                                                this.getAllProveedores();
+                                            }
+                                        });
+                                    }
+                                    else
+                                    {
+                                        Swal.fire({
+                                            title:"ha ocurrido un error en el servidor",
+                                            icon: 'danger'
+                                        });
+                                    }
+                                });
+                        }
+                        else
+                        {
+                            this.$http
+                                .put('proveedores/EditProveedor', {
+                                    proveedor_id: parseInt(this.item.proveedor_id),
+                                    nombre: this.item.nombre,
+                                    tipo_persona: parseInt(this.item.tipo_persona),
+                                    tipo_documento: parseInt(this.item.tipo_documento),
+                                    numero_documento: this.item.numero_documento,
+                                    balance: parseFloat(this.item.balance),
+                                    estado: parseInt(this.item.estado)
+                                })
+                                .then((response) => {
+                                    if (response.status === 200 && response)
+                                    {
+                                         Swal.fire({
+                                            title:"Elemento actualizado exitosamente",
+                                            icon: 'success',
+                                            preConfirm: () => {
+                                                this.closeModal();
+                                                this.getAllProveedores();
+                                            }
+                                        });
+                                    }
+                                    else
+                                    {
+                                        Swal.fire({
+                                            title:"ha ocurrido un error en el servidor",
+                                            icon: 'danger'
+                                        });
+                                    }
+                                });
+                        }
+                    }
+                });
+            }
+        },
+        deleteItem(item) {
+            Swal
+                .fire({
+                    title: "Desea eliminar este elemento?",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    allowEscapeKey: false,
+                    allowOutsideClick: false,
+                    confirmButtonText: "Si",
+                    cancelButtonText: "No",
+                    reverseButtons: true
+                })
+                .then((result) => {
+                    if (result.value) {
+                        Swal.fire({
+                            title: "Espere por favor...",
+                            allowEscapeKey: false,
+                            allowOutsideClick: false,
+                            showConfirmButton: false,
+                            didOpen: () => {
+                                Swal.showLoading();
+                                this.$http
+                                    .put(`proveedores/ChangeEstadoProveedores?id=${item}&estado=2`)
+                                    .then((result) => {
+                                        if (result.status === 200) {
+                                            Swal.fire({
+                                                title: "Elemento Eliminado exitosamente",
+                                                icon: 'success',
+                                            });
+                                            this.getAllProveedores();
+                                        }
+                                        else {
+                                            Swal.fire({
+                                                title: "Ha ocurrido un error",
+                                                icon: 'danger'
+                                            });
+                                        }
+                                    })
+                            }
+                        })
+                    }
+                })
         },
         getAllProveedores() {
             this.$http

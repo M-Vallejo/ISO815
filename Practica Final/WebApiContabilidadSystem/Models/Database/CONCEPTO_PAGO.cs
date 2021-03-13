@@ -13,7 +13,7 @@ namespace WebApiContabilidadSystem.Models
     public class CONCEPTO_PAGO
     {
         [Key]
-        [JsonPropertyName("Concepto_pago_id")]
+        [JsonPropertyName("concepto_pago_id")]
         public int CONCEPTO_PAGO_ID { get; set; }
         public string DESCRIPCION { get; set; }
         public int ESTADO { get; set; }
