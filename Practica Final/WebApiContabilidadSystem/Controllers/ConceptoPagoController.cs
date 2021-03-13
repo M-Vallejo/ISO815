@@ -23,7 +23,7 @@ namespace WebApiContabilidadSystem.Controllers
         [HttpGet]
         public IEnumerable<CONCEPTO_PAGO> Get()
         {
-            return _db.ConceptoPago.Where(x=> x.ESTADO != (int) Estado.Eliminado).ToList();
+            return _db.ConceptoPago.Where(x=> x.ESTADO != (int) Estado.Eliminado).OrderByDescending(x=> x.ESTADO);
         }
 
         [HttpGet("{Estado}")]

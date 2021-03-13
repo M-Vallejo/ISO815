@@ -22,7 +22,7 @@ namespace WebApiContabilidadSystem.Controllers
 
         public IEnumerable<PROVEEDOR> Get()
         {
-            return _db.Proveedor.Where(x => x.ESTADO != (int)Estado.Eliminado).ToList();
+            return _db.Proveedor.Where(x => x.ESTADO != (int)Estado.Eliminado).OrderByDescending(x=> x.ESTADO);
         }
 
         [HttpGet("{Estado}")]
