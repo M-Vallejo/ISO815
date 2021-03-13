@@ -338,7 +338,7 @@
     - 404 Registro no encontrado
     - 500 Error al editar el registro.
 
-  - ###### Editar Proveedor
+  - ###### Editar estado de Concepto de pago
         >Http Put
         >https://localhost:44348/api/ConceptoPago/ChangeEstadoConceptoPago?id=5&estado=2
               
@@ -354,4 +354,82 @@
     - 404 Registor no encontrado
     - 500 Error al editar el registro.
 
+- ###### Obtener Todos los Usuarios
+       > HTTP GET
+       > https://localhost:44348/api/usuario/get
+        
+         Respuesta
+    - 401 (unauthorized) si el token es inválido
+    - 200 Una lista de Usuarios. 
 
+- ###### Obtener usuario por id
+        >Http GET
+        >https://localhost:44348/api/usuario/GetUsuarioById/1
+
+        Parámetros ()
+        ```c#
+            id: int
+        ```
+        
+        Respuesta
+    - 401 (unauthorized) si el token es inválido
+    - 200 Un Usuario
+    - 404 No encontro el registro.
+
+
+ - ###### Crear usuario
+        >Http Post
+        >https://localhost:44348/api/usuario/CreateUsuario
+        
+        Parámetros (Body)
+        ```c#
+            NOMBRE_USUARIO: string,
+            CLAVE": string,
+            NOMBRE: string,
+            APELLIDOS:string,
+            CORREO: string,
+            ROl:int
+        ```
+            Respuesta
+    - 401 (unauthorized) si el token es inválido
+    - 200 Crea un nuevo usuario.
+    - 500 Error al crear el registro.
+
+ - ###### Editar Usuarios
+        >Http Put
+        >https://localhost:44348/api/ConceptoPago/EditConceptoPago
+              
+        Parámetros (Body)
+        ```c#
+            USUARIO_ID : int,
+            NOMBRE_USUARIO: string,
+            CLAVE": string,
+            NOMBRE: string,
+            APELLIDOS:string,
+            CORREO: string,
+            ROl:int
+            ESTADO = int
+            
+        ```
+            Respuesta
+    - 401 (unauthorized) si el token es inválido
+    - 200 Edita el registro.
+    - 404 Registro no encontrado
+    - 500 Error al editar el registro.
+    - 
+ - ###### Editar estado de usuario
+        >Http Put
+        >https://localhost:44348/api/ConceptoPago/ChangeEstadoConceptoPago?id=5&estado=2
+              
+        Parámetros (Query)
+        ```c#
+            id: int,
+            estado: int
+            
+        ```
+            Respuesta
+    - 401 (unauthorized) si el token es inválido
+    - 200 Edita el registro.
+    - 404 Registro no encontrado
+    - 500 Error al editar el registro.
+    
