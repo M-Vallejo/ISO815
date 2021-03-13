@@ -23,7 +23,7 @@ namespace WebApiContabilidadSystem.Controllers
         [HttpGet]
         public IEnumerable<CONCEPTO_PAGO> Get()
         {
-            return _db.ConceptoPago.ToList();
+            return _db.ConceptoPago.Where(x=> x.ESTADO != (int) Estado.Eliminado).ToList();
         }
 
         [HttpGet("{Estado}")]
@@ -36,7 +36,7 @@ namespace WebApiContabilidadSystem.Controllers
         [HttpGet("{id}")]
         public ActionResult GetConceptoPagoById(int id)
         {
-            var target = _db.ConceptoPago.FirstOrDefault(x => x.CONCEPTO_PAGO_ID == id);
+            var target = _db.ConceptoPago.FirstOrDefault(x => x.CONCEPTO_PAGO_ID == id && x.ESTADO != (int) Estado.Eliminado);
 
             if(target != null)
             {

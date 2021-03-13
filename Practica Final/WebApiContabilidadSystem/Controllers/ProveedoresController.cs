@@ -22,7 +22,7 @@ namespace WebApiContabilidadSystem.Controllers
 
         public IEnumerable<PROVEEDOR> Get()
         {
-            return _db.Proveedor.ToList();
+            return _db.Proveedor.Where(x => x.ESTADO != (int)Estado.Eliminado).ToList();
         }
 
         [HttpGet("{Estado}")]
@@ -34,7 +34,7 @@ namespace WebApiContabilidadSystem.Controllers
         [HttpGet("{id}")]
         public ActionResult GetProveedorById(int id)
         {
-            var target = _db.Proveedor.FirstOrDefault(x => x.PROVEEDOR_ID == id);
+            var target = _db.Proveedor.FirstOrDefault(x => x.PROVEEDOR_ID == id && x.ESTADO != (int)Estado.Eliminado);
 
             if (target != null)
             {
