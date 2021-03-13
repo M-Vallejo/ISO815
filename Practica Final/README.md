@@ -64,11 +64,11 @@
 ## Backend
 
 ### Requerimientos
-  - NET 5 (preferible, 3.1 en su defecto).
+  - NetCore 3.1.
   - Web API.
   - Uso de JWT para autenticación (no debe permitir acceder a un recurso que no posea un token de autorización).
   - Uso de EntityFrameworkCore.
-  - Integración con base de datos SQL, pero que sea facilmente escalable a MySQL/MariaDB.
+  - Integración con base de datos SQL Server, pero que sea facilmente escalable a MySQL/MariaDB.
   - Las peticiones deben ser retornadas en JSON.
   - La contraseña debe insertarse encriptada (HASH) en base de datos. (Importancia: baja)
 
@@ -100,9 +100,8 @@
 ## Frontend
 
 ### Requerimientos
-- Angular 9 o superior
-- Angular Material
-- Uso de Guard de autorización (no debe permitir acceso a ningún recurso si no se está autenticado)
+- VueJs
+- Uso de autorización (no debe permitir acceso a ningún recurso si no se está autenticado).
 - Se debe enviar el token al servidor en las peticiones que lo requieran.
 - Se debe pedir confirmación antes de realizar una acción que modifique datos (eliminar, editar, etc...).
 
