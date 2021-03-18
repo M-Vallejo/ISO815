@@ -1,6 +1,6 @@
 <template>
     <v-card>
-        <v-card-title>Proveedores</v-card-title>
+        <v-card-title>Usuarios</v-card-title>
         <v-card-text>
             <v-text-field
                 append-icon="search"
@@ -20,7 +20,7 @@
             :items="items"
             :headers="headers"
         >
-            <template v-slot:top>
+        <template v-slot:top>
                 <v-toolbar flat color="white">
                     <v-spacer />
                     <v-dialog v-model="modal" max-width="900px" persistent>
@@ -39,6 +39,17 @@
                                         <v-row>
                                             <v-col cols="12" sm="6" md="6">
                                                 <v-text-field
+                                                    v-model="item.nombre_usuario"
+                                                    prepend-icon="person"
+                                                    label="Nombre de Usuario"
+                                                    required
+                                                    type="text"
+                                                    maxlength="255"
+                                                    id="nombre_usuario"
+                                                />
+                                            </v-col>
+                                            <v-col cols="12" sm="6" md="6">
+                                                <v-text-field
                                                     v-model="item.nombre"
                                                     prepend-icon="person"
                                                     label="Nombre"
@@ -49,53 +60,39 @@
                                                 />
                                             </v-col>
                                             <v-col cols="12" sm="6" md="6">
-                                                <v-select
-                                                    v-model="item.tipo_persona"
-                                                    prepend-icon="mdi-office-building"
-                                                    :items="personTypes"
-                                                    item-value="id"
-                                                    item-text="value"
-                                                    id="tipo_persona"
-                                                    required
-                                                    label="Tipo Persona"
-                                                >
-                                                </v-select>
-                                            </v-col>
-                                            <v-col cols="12" sm="6" md="6">
-                                                <v-select
-                                                    v-model="item.tipo_documento"
-                                                    prepend-icon="mdi-script-text"
-                                                    :items="documentTypes"
-                                                    item-value="id"
-                                                    item-text="value"
-                                                    id="tipo_documento"
-                                                    required
-                                                    label="Tipo Documento"
-                                                >
-                                                </v-select>
-                                            </v-col>
-                                            <v-col cols="12" sm="6" md="6">
                                                 <v-text-field
-                                                    v-model="item.numero_documento"
-                                                    prepend-icon="mdi-message-text-outline"
-                                                    label="Numero Documento"
+                                                    v-model="item.apellidos"
+                                                    prepend-icon="person"
+                                                    label="Apellidos"
                                                     required
                                                     type="text"
                                                     maxlength="255"
-                                                    id="numero_documento"
+                                                    id="apellidos"
                                                 />
                                             </v-col>
                                             <v-col cols="12" sm="6" md="6">
                                                 <v-text-field
-                                                    v-model="item.balance"
-                                                    prepend-icon="mdi-currency-usd"
-                                                    label="Balance"
+                                                    v-model="item.correo"
+                                                    prepend-icon="email"
+                                                    label="Correo"
                                                     required
-                                                    type="number"
+                                                    type="email"
                                                     maxlength="255"
-                                                    min="0"
-                                                    id="balance"
+                                                    id="correo"
                                                 />
+                                            </v-col>
+                                            <v-col cols="12" sm="6" md="6">
+                                                <v-select
+                                                    v-model="item.rol"
+                                                    prepend-icon="mdi-script-text"
+                                                    :items="roles"
+                                                    item-value="id"
+                                                    item-text="value"
+                                                    id="rol"
+                                                    required
+                                                    label="Rol de Usuario"
+                                                >
+                                                </v-select>
                                             </v-col>
                                             <v-col cols="12" sm="6" md="6">
                                                 <v-select
@@ -125,15 +122,9 @@
             <template v-slot:item.estado="{ item }">
                 <Statusfortable :item="item.estado" />
             </template>
-            <template v-slot:item.tipo_persona="{ item }">
-                {{ personType(item.tipo_persona) }}
-            </template>
-            <template v-slot:item.tipo_documento="{ item }">
-                {{ documentType(item.tipo_documento) }}
-            </template>
             <template v-slot:item.actions="{ item }">
                 <v-icon small class="mr-2" @click="editItem(item)">edit</v-icon>
-                <v-icon small @click="deleteItem(item.proveedor_id)">delete</v-icon>
+                <v-icon small @click="deleteItem(item.usuario_id)">delete</v-icon>
             </template>
         </v-data-table>
     </v-card>
@@ -144,7 +135,7 @@ import Statusfortable from "@/components/Statusfortable";
 import Swal from 'sweetalert2';
 
 export default {
-    name: 'Proveedor',
+    name: "Usuario",
     components: {
         Statusfortable
     },
@@ -155,34 +146,31 @@ export default {
             modal: false,
             editedIndex: -1,
             item: {
+                nombre_usuario: "",
+                clave: "",
                 nombre: "",
-                tipo_persona: null,
-                tipo_documento: null,
-                numero_documento: "",
-                balance: 0,
+                apellidos: "",
+                correo: "",
+                rol: null,
                 estado: 1
             },
             headers: [
                 {
-                    text: "Nombre",
+                    text: "Usuario",
                     align: 'start',
+                    value: "nombre_usuario"
+                },
+                {
+                    text: "Nombre",
                     value: "nombre"
                 },
                 {
-                    text: "Tipo Persona",
-                    value: "tipo_persona"
+                    text: "Apellidos",
+                    value: "apellidos"
                 },
                 {
-                    text: "Balance",
-                    value: 'balance'
-                },
-                {
-                    text: "Tipo Documento",
-                    value: "tipo_documento"
-                },
-                {
-                    text: "Numero Documento",
-                    value: 'numero_documento'
+                    text: "Correo",
+                    value: "correo"
                 },
                 {
                     text: "Estado",
@@ -195,30 +183,6 @@ export default {
                 }
             ],
             items: [],
-            personTypes: [
-                {
-                    "id": 0,
-                    "value": "Fisica"
-                },
-                {
-                    "id": 1,
-                    "value": "Juridica"
-                }
-            ],
-            documentTypes: [
-                {
-                    "id": 0,
-                    "value": "Cedula"
-                },
-                {
-                    "id": 1,
-                    "value": "RNC"
-                },
-                {
-                    "id": 2,
-                    "value": "Pasaporte"
-                }
-            ],
             estados: [
                 {
                     "id": 0,
@@ -232,28 +196,47 @@ export default {
                     "id": 2,
                     "value": "Eliminado"
                 }
+            ],
+            roles: [
+                {
+                    "id": 0,
+                    "value": "Usuario"
+                },
+                {
+                    "id": 1,
+                    "value": "Administrador"
+                }
             ]
         }
     },
     computed: {
         formTitle() {
             const title = this.editedIndex === -1 ? "Crear" : "Editar";
-            return `${title} Proveedor`;
+            return `${title} Usuario`;
         }
     },
     mounted() {
-        this.getAllProveedores();
+        this.getAllUsuarios();
     },
     methods: {
+        getAllUsuarios() {
+            this.$http
+                .get("usuario/get")
+                .then((response) => {
+                    this.items = response.data;
+                    this.isLoading = false;
+                })
+        },
         closeModal() {
             this.editedIndex = -1;
             this.modal = false;
             this.item = Object.assign({}, {
+                nombre_usuario: "",
+                clave: "",
                 nombre: "",
-                tipo_persona: null,
-                tipo_documento: null,
-                numero_documento: "",
-                balance: 0,
+                apellidos: "",
+                correo: "",
+                rol: null,
                 estado: 1
             });
             this.$refs.form.resetValidation();
@@ -262,152 +245,6 @@ export default {
             this.editedIndex = this.items.indexOf(item);
             this.item = Object.assign({}, item);
             this.modal = true;
-        },
-        validateData() {
-            let nombre = document.getElementById("nombre");
-            let tipo_persona = document.getElementById("tipo_persona");
-            let tipo_documento = document.getElementById("tipo_documento");
-            let numero_documento = document.getElementById("numero_documento");
-            let balance = document.getElementById("balance");
-            let estado = document.getElementById("estado");
-
-            if (!nombre.checkValidity()) {
-                nombre.focus();
-                return false;
-            }
-
-            if (!tipo_persona.checkValidity()) {
-                tipo_persona.focus();
-                return false;
-            }
-
-            if (!tipo_documento.checkValidity()) {
-                tipo_documento.focus();
-                return false;
-            }
-
-            if (!numero_documento.checkValidity()) {
-                numero_documento.focus();
-                return false;
-            }
-
-            if (!balance.checkValidity()) {
-                balance.focus();
-                return false;
-            }
-
-            if (!estado.checkValidity()) {
-                estado.focus();
-                return false;
-            }
-
-            if(this.item.tipo_documento == 0 && !this.validateCedula(this.item.numero_documento)) {
-                numero_documento.focus();
-                return false;
-            }
-            return true;
-        },
-        validateCedula(ced) {
-            var c = ced.replace(/-/g,'');
-            var cedula = c.substr(0, c.length - 1);
-            var verificador = c.substr(c.length - 1, 1);
-            var suma = 0;
-            var cedulaValida = 0;
-            if(ced.length < 11) { return false; }
-            for (let i=0; i < cedula.length; i++) {
-                let mod = "";
-                if((i % 2) == 0){mod = 1} else {mod = 2}
-                let res = cedula.substr(i,1) * mod;
-                if (res > 9) {
-                    res = res.toString();
-                    let uno = res.substr(0,1);
-                    let dos = res.substr(1,1);
-                    res = eval(uno) + eval(dos);
-                }
-                suma += eval(res);
-            }
-            let el_numero = (10 - (suma % 10)) % 10;
-            cedulaValida = (el_numero == verificador && cedula.substr(0,3) != "000") ? 1 : 0;
-            return cedulaValida;
-        },
-        saveItem() {
-            if (this.validateData()) {
-                Swal.fire({
-                    title: "Espere por favor",
-                    allowEscapeKey: false,
-                    allowOutsideClick: false,
-                    showConfirmButton: false,
-                    didOpen: () => {
-                        Swal.showLoading();
-
-                        //create item
-                        if (this.editedIndex === -1)
-                        {
-                            this.$http
-                                .post('proveedores/CreateProveedor', {
-                                    nombre: this.item.nombre,
-                                    tipo_persona: parseInt(this.item.tipo_persona),
-                                    tipo_documento: parseInt(this.item.tipo_documento),
-                                    numero_documento: this.item.numero_documento,
-                                    balance: parseFloat(this.item.balance)
-                                })
-                                .then((response) => {
-                                    if (response.status === 200 && response)
-                                    {
-                                         Swal.fire({
-                                            title:"Elemento creado exitosamente",
-                                            icon: 'success',
-                                            preConfirm: () => {
-                                                this.closeModal();
-                                                this.getAllProveedores();
-                                            }
-                                        });
-                                    }
-                                    else
-                                    {
-                                        Swal.fire({
-                                            title:"ha ocurrido un error en el servidor",
-                                            icon: 'danger'
-                                        });
-                                    }
-                                });
-                        }
-                        else
-                        {
-                            this.$http
-                                .put('proveedores/EditProveedor', {
-                                    proveedor_id: parseInt(this.item.proveedor_id),
-                                    nombre: this.item.nombre,
-                                    tipo_persona: parseInt(this.item.tipo_persona),
-                                    tipo_documento: parseInt(this.item.tipo_documento),
-                                    numero_documento: this.item.numero_documento,
-                                    balance: parseFloat(this.item.balance),
-                                    estado: parseInt(this.item.estado)
-                                })
-                                .then((response) => {
-                                    if (response.status === 200 && response)
-                                    {
-                                        Swal.fire({
-                                            title:"Elemento actualizado exitosamente",
-                                            icon: 'success',
-                                            preConfirm: () => {
-                                                this.closeModal();
-                                                this.getAllProveedores();
-                                            }
-                                        });
-                                    }
-                                    else
-                                    {
-                                        Swal.fire({
-                                            title:"ha ocurrido un error en el servidor",
-                                            icon: 'danger'
-                                        });
-                                    }
-                                });
-                        }
-                    }
-                });
-            }
         },
         deleteItem(item) {
             Swal
@@ -431,14 +268,14 @@ export default {
                             didOpen: () => {
                                 Swal.showLoading();
                                 this.$http
-                                    .put(`proveedores/ChangeEstadoProveedores?id=${item}&estado=2`)
+                                    .put(`usuario/ChangeEstadoUsuario?id=${item}&estado=2`)
                                     .then((result) => {
                                         if (result.status === 200) {
                                             Swal.fire({
                                                 title: "Elemento Eliminado exitosamente",
                                                 icon: 'success',
                                             });
-                                            this.getAllProveedores();
+                                            this.getAllUsuarios();
                                         }
                                         else {
                                             Swal.fire({
@@ -450,23 +287,129 @@ export default {
                             }
                         })
                     }
-                })
+                });
         },
-        getAllProveedores() {
-            this.$http
-                .get("proveedores/get")
-                .then((response) => {
-                    this.items = response.data;
-                    this.isLoading = false;
-                })
+        validateData() {
+            let nombre_usuario = document.getElementById("nombre_usuario");
+            let nombre = document.getElementById("nombre");
+            let apellidos = document.getElementById("apellidos");
+            let correo = document.getElementById("correo");
+            let rol = document.getElementById("rol");
+            let estado = document.getElementById("estado");
+
+            if (!nombre_usuario.checkValidity()) {
+                nombre_usuario.focus();
+                return false;
+            }
+
+            if (!nombre.checkValidity()) {
+                nombre.focus();
+                return false;
+            }
+
+            if (!apellidos.checkValidity()) {
+                apellidos.focus();
+                return false;
+            }
+
+            if (!correo.checkValidity()) {
+                correo.focus();
+                return false;
+            }
+
+            if (!rol.checkValidity()) {
+                rol.focus();
+                return false;
+            }
+
+            if (!estado.checkValidity()) {
+                estado.focus();
+                return false;
+            }
+
+            return true;
         },
-        personType(type) {
-            return (type == 0) ? "Fisica" : "Juridica";
-        },
-        documentType(type) {
-            if (type == 0) return "Cedula"
-            else if (type == 1) return "RNC"
-            else return "Pasaporte"
+        saveItem() {
+            if (this.validateData()) {
+                Swal.fire({
+                    title: "Espere por favor",
+                    allowEscapeKey: false,
+                    allowOutsideClick: false,
+                    showConfirmButton: false,
+                    didOpen: () => {
+                        Swal.showLoading();
+
+                        //create item
+                        if (this.editedIndex === -1)
+                        {
+                            this.$http
+                                .post('usuario/CreateUsuario', {
+                                    nombre_usuario: this.item.nombre_usuario,
+                                    clave: this.item.clave,
+                                    nombre: this.item.nombre,
+                                    apellidos: this.item.apellidos,
+                                    correo: this.item.correo,
+                                    rol: parseInt(this.item.rol),
+                                    estado: parseInt(this.item.estado)
+                                })
+                                .then((response) => {
+                                    if (response.status === 200 && response)
+                                    {
+                                        Swal.fire({
+                                            title:"Elemento creado exitosamente",
+                                            icon: 'success',
+                                            preConfirm: () => {
+                                                this.closeModal();
+                                                this.getAllUsuarios();
+                                            }
+                                        });
+                                    }
+                                    else
+                                    {
+                                        Swal.fire({
+                                            title:"ha ocurrido un error en el servidor",
+                                            icon: 'danger'
+                                        });
+                                    }
+                                });
+                        }
+                        else
+                        {
+                            this.$http
+                                .put('usuario/EditUsuario', {
+                                    usuario_id: parseInt(this.item.usuario_id),
+                                    nombre_usuario: this.item.nombre_usuario,
+                                    clave: this.item.clave,
+                                    nombre: this.item.nombre,
+                                    apellidos: this.item.apellidos,
+                                    correo: this.item.correo,
+                                    rol: parseInt(this.item.rol),
+                                    estado: parseInt(this.item.estado)
+                                })
+                                .then((response) => {
+                                    if (response.status === 200 && response)
+                                    {
+                                        Swal.fire({
+                                            title:"Elemento actualizado exitosamente",
+                                            icon: 'success',
+                                            preConfirm: () => {
+                                                this.closeModal();
+                                                this.getAllUsuarios();
+                                            }
+                                        });
+                                    }
+                                    else
+                                    {
+                                        Swal.fire({
+                                            title:"ha ocurrido un error en el servidor",
+                                            icon: 'danger'
+                                        });
+                                    }
+                                });
+                        }
+                    }
+                });
+            }
         }
     }
 }

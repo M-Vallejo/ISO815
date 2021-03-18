@@ -39,6 +39,11 @@ export default {
                     to: 'conceptos',
                     text: "Conceptos de Pago",
                     icon: 'mdi-newspaper'
+                },
+                {
+                    to: 'usuarios',
+                    text: "Usuarios",
+                    icon: 'group'
                 }
             ]
         }

@@ -4,6 +4,7 @@ import Login from '@/views/Login'
 import Proveedor from '@/views/Proveedor'
 import Home from '@/views/Home'
 import Conceptos from '@/views/Conceptos'
+import Usuarios from '@/views/Usuario'
 
 Vue.use(VueRouter)
 
@@ -40,6 +41,14 @@ const routes = [
 		meta: {
 			requiresAuth: true
 		}
+    },
+    {
+        path: '/usuarios',
+        name: "Usuarios",
+        component: Usuarios,
+        meta: {
+            requiresAuth: true
+        }
     }
 ];
 
