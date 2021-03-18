@@ -68,7 +68,8 @@ namespace WebApiContabilidadSystem.Controllers
                 }
                 target.NOMBRE = usuario.NOMBRE;
                 target.NOMBRE_USUARIO = usuario.NOMBRE_USUARIO;
-                target.CLAVE = usuario.CLAVE.Encrypt();
+                if (!string.IsNullOrWhiteSpace(usuario.CLAVE))
+                    target.CLAVE = usuario.CLAVE.Encrypt();
                 target.CORREO = usuario.CORREO;
                 target.APELLIDOS = usuario.APELLIDOS;
                 target.ROL = target.ROL;

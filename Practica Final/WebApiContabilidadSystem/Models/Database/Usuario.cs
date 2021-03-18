@@ -16,6 +16,7 @@ namespace WebApiContabilidadSystem.Models
         [JsonPropertyName("nombre_usuario")]
         public string NOMBRE_USUARIO { get; set; }
 
+        [JsonIgnore]
         [JsonPropertyName("clave")]
         public string CLAVE { get; set; }
 
@@ -31,6 +32,7 @@ namespace WebApiContabilidadSystem.Models
         [JsonPropertyName("rol")]
         public int ROL { get; set; }
 
+        [JsonIgnore]
         [JsonPropertyName("fecha_creacion")]
         public DateTime FECHA_CREACION { get; set; }
 
