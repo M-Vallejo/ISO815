@@ -106,6 +106,17 @@
                                                     id="estado"
                                                 />
                                             </v-col>
+                                            <v-col cols="12" sm="6" md="6">
+                                                <v-text-field
+                                                    v-model="item.clave"
+                                                    prepend-icon="vpn_key"
+                                                    label="Clave"
+                                                    required
+                                                    type="password"
+                                                    maxlength="255"
+                                                    id="clave"
+                                                />
+                                            </v-col>
                                         </v-row>
                                     </v-form>
                                 </v-container>
@@ -296,6 +307,7 @@ export default {
             let correo = document.getElementById("correo");
             let rol = document.getElementById("rol");
             let estado = document.getElementById("estado");
+            let clave = document.getElementById("clave");
 
             if (!nombre_usuario.checkValidity()) {
                 nombre_usuario.focus();
@@ -324,6 +336,11 @@ export default {
 
             if (!estado.checkValidity()) {
                 estado.focus();
+                return false;
+            }
+
+            if (!clave.checkValidity()) {
+                clave.focus();
                 return false;
             }
 
