@@ -14,7 +14,7 @@ namespace Sender
 {
     public partial class MainFrm : Form
     {
-        string ProcessPath = @"..\..\..\..\Receiver\bin\Debug\net5.0\Receiver.exe";
+        string ProcessPath = @"..\..\..\..\Receiver\bin\Debug\net5.0-windows\Receiver.exe";
 
         public MainFrm()
         {
@@ -35,11 +35,13 @@ namespace Sender
             {
                 ProcessStartInfo processInfo = new ProcessStartInfo(ProcessPath, cedula) 
                 { 
-                    CreateNoWindow = true
+                    CreateNoWindow = false
                 };
                 var process = Process.Start(processInfo);
-                process.WaitForExit();
-                process.Close();
+                process.Exited += (sender, args) => 
+                {
+                    MessageBox.Show("Aplicacion cerrada");
+                };
 
             }
             catch (Exception e)
