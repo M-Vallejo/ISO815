@@ -1,3 +1,10 @@
+  
+-- Práctica VI
+
+-- Michael Vallejo Cabrera (20182269)
+-- Alvaro Rafael Martínez Peralta (20182208)
+-- Javier Enmanuel Mercedes (20181463)
+
 CREATE DATABASE IF NOT EXISTS Termopac;
 use Termopac;
 
