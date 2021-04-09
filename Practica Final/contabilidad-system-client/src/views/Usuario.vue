@@ -339,9 +339,11 @@ export default {
                 return false;
             }
 
-            if (!clave.checkValidity()) {
-                clave.focus();
-                return false;
+            if (this.editedIndex === -1) {
+                if (!clave.checkValidity()) {
+                    clave.focus();
+                    return false;
+                }
             }
 
             return true;
