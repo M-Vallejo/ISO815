@@ -113,9 +113,9 @@
 ### Integración contabilidad
 
   Clase `AccountingService/ServicioContabilidad`  que contendrá la lógiga necesaria para la integración con el web service de contabilidad.
-  - Método de Procesar Asientos que recibirá como parámetros la suma de los montos de los asientos contables (entrada de documentos) enviados por el frontend; los datos de configuración como lo son el Id del Auxiliar, Cuenta débido y cuenta crédito y el texto:
-    - > Asiento contable de inventario correspondiente al periodo yyyy-MM
-    - Debe devolver un string con el número de asiento contable que devuelva contabilidad.
+  - Método de Procesar Asientos que recibirá como parámetros la suma de los montos de los asientos contables (entrada de documentos) enviados por el frontend; los datos de configuración como lo son el Id del Auxiliar, cuenta débido, cuenta crédito y el texto:
+    - > Asiento contable de inventario correspondiente al período yyyy-MM
+    - Debe devolver un string con el número de asiento contable que retorne contabilidad.
   - Se deben actualizar los asientos (entrada de documentos) utilizados para enviar a contabilidad, con el id de asiento que envia contabilidad luego de procesar los asientos enviados. El campo a actualizar será el `ID_ASIENTO`.
 
 ## Frontend
@@ -150,8 +150,8 @@
       - Condiciones: `textarea`
   - Contabilidad
     - Muestra una lista de los documentos registrados, filtrados por rango de fecha y un botón de buscar.
-    - Los documentos desplegados en esta sección serán enviado a contabilidad cuando se presione el botón de contabilizar.
-    - Luego que los documentos se hayan contabilizado, debe hacer una buscqueda nuevamente con los filtros seleccioados arriba.
+    - Los documentos desplegados en esta sección serán enviados a contabilidad cuando se presione el botón de contabilizar.
+    - Luego que los documentos se hayan contabilizado, se debe hacer una buscqueda nuevamente con los filtros seleccionados arriba.
     ![image](https://user-images.githubusercontent.com/19641846/114122354-19dc2c80-98be-11eb-928a-a5e9c709855b.png)
     
 #### Módulos Usuario
