@@ -136,7 +136,9 @@
   - Conceptos de pago
     - Mismas condiciones que usuario a excepción de la búsqueda que se realizará solo por descripción.
   - Proveedores
-    - Misma condiciones que conceptos de pago.
+    - Mismas condiciones que conceptos de pago.
+  - Tipos de documentos
+    - Mismas condiciones que conceptos de pago.
 - Contabilidad
   - Entrada de documentos
     - Formulario que permita registrar las entradas de documentos, debe mostrar los siguientes campos:
@@ -150,7 +152,8 @@
     - Muestra una lista de los documentos registrados, filtrados por rango de fecha y un botón de buscar.
     - Los documentos desplegados en esta sección serán enviado a contabilidad cuando se presione el botón de contabilizar.
     - Luego que los documentos se hayan contabilizado, debe hacer una buscqueda nuevamente con los filtros seleccioados arriba.
-
+    ![image](https://user-images.githubusercontent.com/19641846/114122354-19dc2c80-98be-11eb-928a-a5e9c709855b.png)
+    
 #### Módulos Usuario
 - Mantenimiento
   - Conceptos de pago
