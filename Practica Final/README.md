@@ -3,9 +3,9 @@
 ## Base de datos
 
 ```sql
-    CREATE DATABASE CONTABILIDAD
-    GO
-    USE CONTABILIDAD
+  CREATE DATABASE CONTABILIDAD
+  GO
+  USE CONTABILIDAD
 ```
 
 - Usuarios
@@ -26,39 +26,53 @@
 - Conceptos de pago
   
   ```sql
-    CREATE TABLE CONCEPTO_PAGO (
-        CONCEPTO_PAGO_ID INT PRIMARY KEY IDENTITY,
-        DESCRIPCION VARCHAR(100) NOT NULL,
-        ESTADO INT NOT NULL DEFAULT(1)
-    )
+  CREATE TABLE CONCEPTO_PAGO (
+      CONCEPTO_PAGO_ID INT PRIMARY KEY IDENTITY,
+      DESCRIPCION VARCHAR(100) NOT NULL,
+      ESTADO INT NOT NULL DEFAULT(1)
+  )
   ```
 
 - Proveedores
   
   ```sql
-    CREATE TABLE PROVEEDOR (
-        PROVEEDOR_ID INT PRIMARY KEY IDENTITY,
-        NOMBRE VARCHAR(100) NOT NULL,
-        TIPO_PERSONA INT NOT NULL,
-        TIPO_DOCUMENTO INT NOT NULL,
-        NUMERO_DOCUMENTO VARCHAR(15),
-        BALANCE DECIMAL (18,2),
-        ESTADO INT NOT NULL DEFAULT(1)
-    )
+  CREATE TABLE PROVEEDOR (
+      PROVEEDOR_ID INT PRIMARY KEY IDENTITY,
+      NOMBRE VARCHAR(100) NOT NULL,
+      TIPO_PERSONA INT NOT NULL,
+      TIPO_DOCUMENTO INT NOT NULL,
+      NUMERO_DOCUMENTO VARCHAR(15),
+      BALANCE DECIMAL (18,2),
+      ESTADO INT NOT NULL DEFAULT(1)
+  )
+  ```
+
+- Tipo de documento
+
+  ```sql
+  CREATE TABLE TIPO_DOCUMENTO (
+      TIPO_DOCUMENTO_ID INT PRIMARY KEY IDENTITY,
+      DESCRIPCION VARCHAR(100),
+      ESTADO INT NOT NULL DEFAULT(1)
+  )
   ```
 
 - Entrada de documentos
 
   ```sql
-    CREATE TABLE ENTRADA_DOCUMENTO (
-        NUMERO_DOCUMENTO INT PRIMARY KEY IDENTITY,
-        NUMERO_FACTURA INT NOT NULL,
-        FECHA_DOCUMENTO DATE NOT NULL,
-        MONTO DECIMAL(18,2) NOT NULL,
-        FECHA_REGISTRO DATETIME NOT NULL DEFAULT(GETDATE()),
-        PROVEEDOR INT NOT NULL FOREIGN KEY REFERENCES PROVEEDOR(PROVEEDOR_ID),
-        ESTADO INT NOT NULL DEFAULT(1)
-    )
+  CREATE TABLE ENTRADA_DOCUMENTO (
+      NUMERO_DOCUMENTO INT PRIMARY KEY IDENTITY,
+      NUMERO_FACTURA INT NOT NULL,
+      NUMERO_CHEQUE INT NULL,
+      FECHA_DOCUMENTO DATE NOT NULL,
+      MONTO DECIMAL(18,2) NOT NULL,
+      TIPO_DOCUMENTO INT NOT NULL FOREIGN KEY REFERENCES TIPO_DOCUMENTO(TIPO_DOCUMENTO_ID),
+      PROVEEDOR INT NOT NULL FOREIGN KEY REFERENCES PROVEEDOR(PROVEEDOR_ID),
+      ID_ASIENTO INT NULL,
+      CONDICIONES VARCHAR(255) NULL,
+      FECHA_REGISTRO DATETIME NOT NULL DEFAULT(GETDATE()),
+      ESTADO INT NOT NULL DEFAULT(1)
+  )
   ```
 
 ## Backend
@@ -96,6 +110,13 @@
     0 - Fisica
     1 - Juridica
   ```
+### Integración contabilidad
+
+  Clase `AccountingService/ServicioContabilidad`  que contendrá la lógiga necesaria para la integración con el web service de contabilidad.
+  - Método de Procesar Asientos que recibirá como parámetros la suma de los montos de los asientos contables (entrada de documentos) enviados por el frontend; los datos de configuración como lo son el Id del Auxiliar, Cuenta débido y cuenta crédito y el texto:
+    - > Asiento contable de inventario correspondiente al periodo yyyy-MM
+    - Debe devolver un string con el número de asiento contable que devuelva contabilidad.
+  - Se deben actualizar los asientos (entrada de documentos) utilizados para enviar a contabilidad, con el id de asiento que envia contabilidad luego de procesar los asientos enviados. El campo a actualizar será el `ID_ASIENTO`.
 
 ## Frontend
 
@@ -118,7 +139,17 @@
     - Misma condiciones que conceptos de pago.
 - Contabilidad
   - Entrada de documentos
-  - Consulta
+    - Formulario que permita registrar las entradas de documentos, debe mostrar los siguientes campos:
+      - Número de Factura: `number`
+      - Número de cheque: `number`
+      - Fecha: `Date`
+      - Tipo de documento: `Dropdown<Tipo_Documento>`
+      - Proveedor: `Dropdown<Proveedor>`
+      - Condiciones: `textarea`
+  - Contabilidad
+    - Muestra una lista de los documentos registrados, filtrados por rango de fecha y un botón de buscar.
+    - Los documentos desplegados en esta sección serán enviado a contabilidad cuando se presione el botón de contabilizar.
+    - Luego que los documentos se hayan contabilizado, debe hacer una buscqueda nuevamente con los filtros seleccioados arriba.
 
 #### Módulos Usuario
 - Mantenimiento
@@ -130,6 +161,21 @@
 
 #### Módulos Administrador
 - Todos
+
+## Configuración
+ ```json
+ {
+   "AppSettings": {
+    ...
+  },
+  "AccountingSettings": {
+    "AsientoId": 6,
+    "CuentaDebito": 82,
+    "CuentaCredito": 4
+  },
+  ...
+ }
+ ```
 
 ## Token
 - Administrador
