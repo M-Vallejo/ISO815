@@ -64,12 +64,12 @@ const router = new VueRouter({
 router.beforeEach((to, _from, next) => {
 	const currentUser = localStorage.getItem("token");
 	const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
-    const currentUserData = parseInt(JSON.parse(localStorage.getItem("user")).rol);
+    const currentUserData = (localStorage.getItem("user") == null) ? null : parseInt(JSON.parse(localStorage.getItem("user")).rol);
     const userRole = parseInt(to.meta.userRole);
 
 	if (requiresAuth && !currentUser) next('login');
 	else if (!requiresAuth && currentUser) next('home');
-    else if (currentUserData != userRole) next("home");
+    else if (currentUserData != null && currentUserData != userRole) next("home");
 	else next();
 });
 
