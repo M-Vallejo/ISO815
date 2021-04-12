@@ -26,7 +26,7 @@ namespace WebApiContabilidadSystem.Models
         public virtual PROVEEDOR proveedor { get; set; }
         [JsonPropertyName("id_asiento")]
         public int ID_ASIENTO { get; set; }
-        public string condiciones { get; set; }
+        public string CONDICIONES { get; set; }
         [JsonPropertyName("fecha_registro")]
         public DateTime FECHA_REGISTRO { get; set; }
         public int ESTADO { get; set; }
