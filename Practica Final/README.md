@@ -112,7 +112,7 @@
   ```
 ### Integración contabilidad
 
-  Clase `AccountingService/ServicioContabilidad`  que contendrá la lógiga necesaria para la integración con el web service de contabilidad.
+  Clase `AccountingService/ServicioContabilidad`  que contendrá la lógica necesaria para la integración con el web service de contabilidad.
   - Método de Procesar Asientos que recibirá como parámetros la suma de los montos de los asientos contables (entrada de documentos) enviados por el frontend; los datos de configuración como lo son el Id del Auxiliar, cuenta débido, cuenta crédito y el texto:
     - > Asiento contable de inventario correspondiente al período yyyy-MM
     - Debe devolver un string con el número de asiento contable que retorne contabilidad.
