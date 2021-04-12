@@ -23,7 +23,8 @@ const routes = [
 		name: 'Home',
 		component: Home,
 		meta: {
-			requiresAuth: true
+			requiresAuth: true,
+            userRole: "0"
 		}
 	},
     {
@@ -31,7 +32,8 @@ const routes = [
 		name: "Proveedores",
 		component: Proveedor,
 		meta: {
-			requiresAuth: true
+			requiresAuth: true,
+            userRole: "0"
 		}
     },
     {
@@ -39,7 +41,8 @@ const routes = [
 		name: "Conceptos",
 		component: Conceptos,
 		meta: {
-			requiresAuth: true
+			requiresAuth: true,
+            userRole: "0"
 		}
     },
     {
@@ -47,7 +50,8 @@ const routes = [
         name: "Usuarios",
         component: Usuarios,
         meta: {
-            requiresAuth: true
+            requiresAuth: true,
+            userRole: "1"
         }
     }
 ];
@@ -60,9 +64,12 @@ const router = new VueRouter({
 router.beforeEach((to, _from, next) => {
 	const currentUser = localStorage.getItem("token");
 	const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
+    const currentUserData = (localStorage.getItem("user") == null) ? null : parseInt(JSON.parse(localStorage.getItem("user")).rol);
+    const userRole = parseInt(to.meta.userRole);
 
 	if (requiresAuth && !currentUser) next('login');
 	else if (!requiresAuth && currentUser) next('home');
+    else if (currentUserData != null && currentUserData != userRole) next("home");
 	else next();
 });
 

@@ -18,7 +18,8 @@ export default {
     name: "Sidebar",
     data: () => {
         return {
-            getLoggedStatus: !!localStorage.getItem("token")
+            getLoggedStatus: !!localStorage.getItem("token"),
+            user: JSON.parse(localStorage.getItem("user"))
         }
     },
     computed: {
@@ -27,23 +28,26 @@ export default {
                 {
                     to: 'home',
                     text: "Dashboard",
-                    icon: 'mdi-home'
+                    icon: 'mdi-home',
+                    role: 0
                 },
                 {
                     to: 'proveedores',
                     text: "Proveedores",
-                    icon: 'mdi-bag-personal'
+                    icon: 'mdi-bag-personal',
+                    role: 0
                 },
-
                 {
                     to: 'conceptos',
                     text: "Conceptos de Pago",
-                    icon: 'mdi-newspaper'
+                    icon: 'mdi-newspaper',
+                    role: 0
                 },
                 {
                     to: 'usuarios',
                     text: "Usuarios",
-                    icon: 'group'
+                    icon: 'group',
+                    role: 1
                 }
             ]
         }

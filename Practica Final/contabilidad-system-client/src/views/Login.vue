@@ -84,7 +84,11 @@ export default {
                             })
                             .then((response) => {
                                 if (response.status === 200) {
-                                    localStorage.setItem("token", response.data.token);
+                                    const token = response.data.token;
+                                    localStorage.setItem("token", token);
+
+                                    const user = token.split(".")[1];
+                                    localStorage.setItem("user", atob(user));
                                     location.reload();
                                 }
                             })
