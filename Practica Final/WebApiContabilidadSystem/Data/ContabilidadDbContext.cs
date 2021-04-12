@@ -16,5 +16,6 @@ namespace WebApiContabilidadSystem.Data
         public DbSet<CONCEPTO_PAGO> ConceptoPago { get; set; }
         public DbSet<PROVEEDOR> Proveedor { get; set; }
         public DbSet<ENTRADA_DOCUMENTO> EntradaDocumento { get; set; }
+        public DbSet<TIPO_DOCUMENTO> TIPO_DOCUMENTO { get; set; }
     }
 }
