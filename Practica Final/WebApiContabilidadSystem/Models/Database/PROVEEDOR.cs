@@ -33,7 +33,6 @@ namespace WebApiContabilidadSystem.Models
 
         [JsonPropertyName("estado")]
         public int ESTADO { get; set; }
-        public virtual ICollection<ENTRADA_DOCUMENTO> ENTRADA_DOCUMENTO { get; set; }
 
     }
 }

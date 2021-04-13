@@ -27,8 +27,8 @@ namespace WebApiContabilidadSystem.Controllers
         [HttpGet("{Estado}")]
         public IEnumerable<TIPO_DOCUMENTO> GetTipoDocumentoByEstatus(int Estado)
         {
-            var conceptosPagos = _db.TIPO_DOCUMENTO.Where(x => x.ESTADO == Estado).ToList();
-            return conceptosPagos;
+            var TipoDocumento = _db.TIPO_DOCUMENTO.Where(x => x.ESTADO == Estado).ToList();
+            return TipoDocumento;
         }
 
         [HttpGet("{id}")]

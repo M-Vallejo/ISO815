@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace WebApiContabilidadSystem.Models
 {
+    [Table("ENTRADA_DOCUMENTO")]
     public class ENTRADA_DOCUMENTO
     {
         [Key]
@@ -20,10 +22,8 @@ namespace WebApiContabilidadSystem.Models
         public DateTime FECHA_DOCUMENTO { get; set; }
         public decimal MONTO { get; set; }
         [JsonPropertyName("tipo_documento")]
-        public int TIPO_DOCUMENTO { get; set; }
-        public virtual TIPO_DOCUMENTO TipoDocumento { get; set; }
-        public int PROVEEDOR { get; set; }
-        public virtual PROVEEDOR proveedor { get; set; }
+        public TIPO_DOCUMENTO TIPO_DOCUMENTO_ID { get; set; }
+        public PROVEEDOR PROVEEDOR_ID { get; set; }
         [JsonPropertyName("id_asiento")]
         public int ID_ASIENTO { get; set; }
         public string CONDICIONES { get; set; }
