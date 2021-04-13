@@ -1,7 +1,7 @@
 <template>
     <v-navigation-drawer permanent app expand-on-hover v-if="getLoggedStatus">
         <v-list dense>
-            <v-list-item v-for="(link, index) in links" :key="index" link :to="link.to" :replace="false">
+            <v-list-item v-for="(link, index) in linksForUsers" :key="index" link :to="link.to" :replace="false">
                 <v-list-item-action>
                     <v-icon>{{ link.icon }}</v-icon>
                 </v-list-item-action>
@@ -19,12 +19,8 @@ export default {
     data: () => {
         return {
             getLoggedStatus: !!localStorage.getItem("token"),
-            user: JSON.parse(localStorage.getItem("user"))
-        }
-    },
-    computed: {
-        links() {
-            return [
+            user: JSON.parse(localStorage.getItem("user")),
+            links: [
                 {
                     to: 'home',
                     text: "Dashboard",
@@ -48,8 +44,19 @@ export default {
                     text: "Usuarios",
                     icon: 'group',
                     role: 1
+                },
+                {
+                    to: 'tipo_documentos',
+                    text: "Tipos de Documentos",
+                    icon: 'group',
+                    role: 0
                 }
             ]
+        }
+    },
+    computed: {
+        linksForUsers: function() {
+            return this.links.filter(link => link.role == parseInt(this.user.rol));
         }
     },
 }
