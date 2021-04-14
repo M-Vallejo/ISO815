@@ -124,7 +124,7 @@ Clase `AccountingService/ServicioContabilidad` que contendrá la lógica necesar
     account: int //82, 4
     seatAmount: decimal
   ```
-#### Datos a recibir por contabilidad
+#### Datos a recibir desde contabilidad
   ```cs
     id: int
     description: string
