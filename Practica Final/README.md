@@ -129,7 +129,7 @@ Clase `AccountingService/ServicioContabilidad` que contendrá la lógica necesar
     id: int
     description: string
     idAuxiliarSystem: int
-    account: string
+    account: string //82, 4
     movementType: string //DB, CR
     entryDate: DateTime
     seatAmount: decimal
@@ -316,11 +316,11 @@ Respuesta
 
     Parámetros (Body)
     ```cs
-        "nombre": string,
-        "tipo_persona": int,
-        "tipo_documento": int,
-        "numero_documento": string,
-        "balance":decimal
+        nombre: string
+        tipo_persona: int
+        tipo_documento: int
+        numero_documento: string
+        balance: decimal
     ```
     Respuesta
     - 401 (unauthorized) si el token es inválido
@@ -353,7 +353,7 @@ Respuesta
 
     Parámetros (Params)
     ```cs
-        id: int,
+        id: int
         estado: int
     ```
     Respuesta
@@ -415,8 +415,8 @@ Respuesta
 
     Parámetros (Body)
     ```cs
-        Concepto_pago_id: int,
-        descripcion: string,
+        Concepto_pago_id: int
+        descripcion: string
         estado: int
     ```
     Respuesta
@@ -431,7 +431,7 @@ Respuesta
 
     Parámetros (Params)
     ```cs
-        id: int,
+        id: int
         estado: int
     ```
     Respuesta
@@ -468,12 +468,12 @@ Respuesta
 
     Parámetros (Body)
     ```cs
-        NOMBRE_USUARIO: string,
-        CLAVE": string,
-        NOMBRE: string,
-        APELLIDOS:string,
-        CORREO: string,
-        ROl:int
+        NOMBRE_USUARIO: string
+        CLAVE: string
+        NOMBRE: string
+        APELLIDOS:string
+        CORREO: string
+        ROL: int
     ```
     Respuesta
     - 401 (unauthorized) si el token es inválido
@@ -486,14 +486,14 @@ Respuesta
 
     Parámetros (Body)
     ```cs
-        USUARIO_ID : int,
-        NOMBRE_USUARIO: string,
-        CLAVE": string,
-        NOMBRE: string,
-        APELLIDOS:string,
-        CORREO: string,
-        ROl:int
-        ESTADO = int
+        USUARIO_ID : int
+        NOMBRE_USUARIO: string
+        CLAVE: string
+        NOMBRE: string
+        APELLIDOS:string
+        CORREO: string
+        ROL: int
+        ESTADO: int
     ```
     Respuesta
     - 401 (unauthorized) si el token es inválido
@@ -507,7 +507,7 @@ Respuesta
 
     Parámetros (Params)
     ```cs
-        id: int,
+        id: int
         estado: int
     ```
     Respuesta
