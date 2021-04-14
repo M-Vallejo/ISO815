@@ -120,7 +120,7 @@ Clase `AccountingService/ServicioContabilidad` que contendrá la lógica necesar
   ```cs
     description: string
     idAuxiliarSystem: int
-    movementType: int // DB, CR
+    movementType: string // DB, CR
     account: int //82, 4
     seatAmount: decimal
   ```
