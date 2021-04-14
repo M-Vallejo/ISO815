@@ -64,7 +64,7 @@ namespace WebApiContabilidadSystem.Controllers
         {
             try
             {
-                var target = _db.ConceptoPago.FirstOrDefault(x => x.CONCEPTO_PAGO_ID == TipoDocumento.TIPO_DOCUMENTO_ID);
+                var target = _db.TIPO_DOCUMENTO.FirstOrDefault(x => x.TIPO_DOCUMENTO_ID == TipoDocumento.TIPO_DOCUMENTO_ID);
                 target.DESCRIPCION = TipoDocumento.DESCRIPCION;
                 target.ESTADO = TipoDocumento.ESTADO;
                 _db.SaveChanges();
