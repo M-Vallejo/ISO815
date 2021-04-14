@@ -1,7 +1,7 @@
 <template>
     <v-card>
-        <v-card-title>Conceptos de Pago</v-card-title>
-         <v-card-text>
+        <v-card-title>Tipos de Documentos</v-card-title>
+        <v-card-text>
             <v-text-field
                 append-icon="search"
                 label="Buscar"
@@ -78,7 +78,7 @@
             </template>
             <template v-slot:item.actions="{ item }">
                 <v-icon small class="mr-2" @click="editItem(item)">edit</v-icon>
-                <v-icon small @click="deleteItem(item.concepto_pago_id)">delete</v-icon>
+                <v-icon small @click="deleteItem(item.tipo_documento_id)">delete</v-icon>
             </template>
         </v-data-table>
     </v-card>
@@ -89,7 +89,7 @@ import Statusfortable from "@/components/Statusfortable";
 import Swal from 'sweetalert2';
 
 export default {
-    name: "Conceptos",
+    name: "tipodocumento",
     components: {
         Statusfortable
     },
@@ -132,14 +132,14 @@ export default {
             ]
         }
     },
+    mounted() {
+        this.getAllTipoDocumentos();
+    },
     computed: {
         formTitle() {
             const title = this.editedIndex === -1 ? "Crear" : "Editar";
             return `${title} Concepto de Pago`;
         }
-    },
-    mounted() {
-        this.getAllConceptos();
     },
     methods: {
         closeModal() {
@@ -186,7 +186,7 @@ export default {
                         if (this.editedIndex === -1)
                         {
                             this.$http
-                                .post('ConceptoPago/CreateConceptoPago', {
+                                .post('TipoDocumento/CreateTipoDocumento', {
                                     descripcion: this.item.descripcion,
                                     estado: parseInt(this.item.estado)
                                 })
@@ -198,7 +198,7 @@ export default {
                                             icon: 'success',
                                             preConfirm: () => {
                                                 this.closeModal();
-                                                this.getAllConceptos();
+                                                this.getAllTipoDocumentos();
                                             }
                                         });
                                     }
@@ -214,10 +214,10 @@ export default {
                         else
                         {
                             this.$http
-                                .put('ConceptoPago/EditConceptoPago', {
+                                .put('TipoDocumento/EditTipoDocumento', {
                                     descripcion: this.item.descripcion,
                                     estado: parseInt(this.item.estado),
-                                    concepto_pago_id: parseInt(this.item.concepto_pago_id)
+                                    tipo_documento_id: parseInt(this.item.tipo_documento_id)
                                 })
                                 .then((response) => {
                                     if (response.status === 200 && response)
@@ -227,7 +227,7 @@ export default {
                                             icon: 'success',
                                             preConfirm: () => {
                                                 this.closeModal();
-                                                this.getAllConceptos();
+                                                this.getAllTipoDocumentos();
                                             }
                                         });
                                     }
@@ -266,14 +266,14 @@ export default {
                             didOpen: () => {
                                 Swal.showLoading();
                                 this.$http
-                                    .put(`ConceptoPago/ChangeEstadoConceptoPago?id=${item}&estado=2`)
+                                    .put(`TipoDocumento/ChangeEstadoTipoDocumento?id=${item}&estado=2`)
                                     .then((result) => {
                                         if (result.status === 200) {
                                             Swal.fire({
                                                 title: "Elemento Eliminado exitosamente",
                                                 icon: 'success',
                                             });
-                                            this.getAllConceptos();
+                                            this.getAllTipoDocumentos();
                                         }
                                         else {
                                             Swal.fire({
@@ -287,9 +287,9 @@ export default {
                     }
                 })
         },
-        getAllConceptos() {
+        getAllTipoDocumentos() {
             this.$http
-                .get("ConceptoPago/get")
+                .get("TipoDocumento/get")
                 .then((response) => {
                     this.items = response.data;
                     this.isLoading = false;

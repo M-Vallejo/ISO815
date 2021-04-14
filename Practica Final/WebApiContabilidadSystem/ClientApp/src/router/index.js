@@ -5,14 +5,11 @@ import Proveedor from '@/views/Proveedor'
 import Home from '@/views/Home'
 import Conceptos from '@/views/Conceptos'
 import Usuarios from '@/views/Usuario'
+import TipoDocumento from '@/views/TipoDocumento'
 
 Vue.use(VueRouter)
 
 const routes = [
-    {
-		path: "*",
-		redirect: "/login"
-	},
 	{
 		path: '/login',
 		name: "Login",
@@ -24,7 +21,7 @@ const routes = [
 		component: Home,
 		meta: {
 			requiresAuth: true,
-            userRole: "0"
+            userRole: 0
 		}
 	},
     {
@@ -33,7 +30,7 @@ const routes = [
 		component: Proveedor,
 		meta: {
 			requiresAuth: true,
-            userRole: "0"
+            userRole: 0
 		}
     },
     {
@@ -42,7 +39,7 @@ const routes = [
 		component: Conceptos,
 		meta: {
 			requiresAuth: true,
-            userRole: "0"
+            userRole: 0
 		}
     },
     {
@@ -51,7 +48,16 @@ const routes = [
         component: Usuarios,
         meta: {
             requiresAuth: true,
-            userRole: "1"
+            userRole: 1
+        }
+    },
+    {
+        path: '/tipodocumento',
+        name: "Tipo Documento",
+        component: TipoDocumento,
+        meta: {
+            requiresAuth: true,
+            userRole: 0
         }
     }
 ];
@@ -63,13 +69,11 @@ const router = new VueRouter({
 
 router.beforeEach((to, _from, next) => {
 	const currentUser = localStorage.getItem("token");
-	const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
-    const currentUserData = (localStorage.getItem("user") == null) ? null : parseInt(JSON.parse(localStorage.getItem("user")).rol);
-    const userRole = parseInt(to.meta.userRole);
+    const user = JSON.parse(localStorage.getItem('user'));
 
-	if (requiresAuth && !currentUser) next('login');
-	else if (!requiresAuth && currentUser) next('home');
-    else if (currentUserData != null && currentUserData != userRole) next("home");
+	if (to.meta.requiresAuth && !currentUser) next('login');
+	else if (!to.meta.requiresAuth && currentUser) next('home');
+    else if ((user) && to.meta.userRole != parseInt(user.rol)) next('home');
 	else next();
 });
 

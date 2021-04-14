@@ -14,7 +14,6 @@ namespace WebApiContabilidadSystem.Models
         public int TIPO_DOCUMENTO_ID { get; set; }
         public string DESCRIPCION { get; set; }
         public int ESTADO { get; set; }
-        public virtual ICollection<ENTRADA_DOCUMENTO> ENTRADA_DOCUMENTO { get; set; }
 
     }
 }
