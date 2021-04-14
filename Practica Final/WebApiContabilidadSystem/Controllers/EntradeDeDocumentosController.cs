@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,10 +13,10 @@ namespace WebApiContabilidadSystem.Controllers
     [Route("api/[controller]/[action]")]
     [ApiController]
     [Authorize]
-    public class ENTRADADOCUMENTOController : ControllerBase
+    public class EntradeDeDocumentosController : ControllerBase
     {
         private readonly ContabilidadDbContext _db;
-        public ENTRADADOCUMENTOController(ContabilidadDbContext db)
+        public EntradeDeDocumentosController(ContabilidadDbContext db)
         {
             _db = db;
         }
@@ -23,32 +24,31 @@ namespace WebApiContabilidadSystem.Controllers
         [HttpGet]
         public IEnumerable<ENTRADA_DOCUMENTO> Get()
         {
-           
-            try
-            {
-                var a =  _db.EntradaDocumento.Where(x => x.ESTADO != (int)Estado.Eliminado).OrderByDescending(x => x.ESTADO).ToList();
-                return a;
 
-            }
-            catch (Exception e)
-            {
-                var a = _db.EntradaDocumento.Where(x => x.ESTADO != (int)Estado.Eliminado).OrderByDescending(x => x.ESTADO).ToList();
-                return a;
-            }
-            
+            var p = _db.EntradaDocumento
+                        .Include("TIPO_DOCUMENTO")
+                        .Include("PROVEEDOR")
+                        .ToList()
+                        .Where(x => x.ESTADO != (int)Estado.Eliminado)
+                        .OrderByDescending(x => x.ESTADO);
+            return p;
         }
 
         [HttpGet("{Estado}")]
         public IEnumerable<ENTRADA_DOCUMENTO> GetEntradaDocumentoByEstatus(int Estado)
         {
-            var entradaDocumento = _db.EntradaDocumento.Where(x => x.ESTADO == Estado).ToList();
+            var entradaDocumento = _db.EntradaDocumento.Include("TIPO_DOCUMENTO")
+                                                       .Include("PROVEEDOR")
+                                                       .Where(x => x.ESTADO == Estado);
             return entradaDocumento;
         }
 
         [HttpGet("{id}")]
         public ActionResult GetEntradaDocumentoById(int id)
         {
-            var target = _db.EntradaDocumento.FirstOrDefault(x => x.NUMERO_DOCUMENTO == id && x.ESTADO != (int)Estado.Eliminado);
+            var target = _db.EntradaDocumento.Include("TIPO_DOCUMENTO")
+                                             .Include("PROVEEDOR")
+                                             .FirstOrDefault(x => x.NUMERO_DOCUMENTO == id && x.ESTADO != (int)Estado.Eliminado);
 
             if (target != null)
             {
@@ -83,8 +83,8 @@ namespace WebApiContabilidadSystem.Controllers
                 target.NUMERO_CHEQUE = EntradaDocumento.NUMERO_CHEQUE;
                 target.FECHA_DOCUMENTO = EntradaDocumento.FECHA_DOCUMENTO;
                 target.MONTO = EntradaDocumento.MONTO;
-                target.TIPO_DOCUMENTO_ID = EntradaDocumento.TIPO_DOCUMENTO_ID;
-                target.PROVEEDOR_ID = EntradaDocumento.PROVEEDOR_ID;
+                target.TIPO_DOCUMENTO = EntradaDocumento.TIPO_DOCUMENTO;
+                target.PROVEEDOR = EntradaDocumento.PROVEEDOR;
                 target.CONDICIONES = EntradaDocumento.CONDICIONES;
                 target.ESTADO = EntradaDocumento.ESTADO;
                 _db.SaveChanges();

@@ -22,10 +22,10 @@ namespace WebApiContabilidadSystem.Models
         public DateTime FECHA_DOCUMENTO { get; set; }
         public decimal MONTO { get; set; }
         [JsonPropertyName("tipo_documento")]
-        public TIPO_DOCUMENTO TIPO_DOCUMENTO_ID { get; set; }
-        public PROVEEDOR PROVEEDOR_ID { get; set; }
+        public TIPO_DOCUMENTO TIPO_DOCUMENTO { get; set; }
+        public PROVEEDOR PROVEEDOR { get; set; }
         [JsonPropertyName("id_asiento")]
-        public int ID_ASIENTO { get; set; }
+        public int? ID_ASIENTO { get; set; }
         public string CONDICIONES { get; set; }
         [JsonPropertyName("fecha_registro")]
         public DateTime FECHA_REGISTRO { get; set; }
