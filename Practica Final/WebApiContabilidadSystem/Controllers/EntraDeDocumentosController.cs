@@ -1,10 +1,17 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
+using WebApiContabilidadSystem.AccountingService;
 using WebApiContabilidadSystem.Data;
 using WebApiContabilidadSystem.Models;
 using WebApiContabilidadSystem.Models.ViewModels;
@@ -17,9 +24,12 @@ namespace WebApiContabilidadSystem.Controllers
     public class EntraDeDocumentosController : ControllerBase
     {
         private readonly ContabilidadDbContext _db;
-        public EntraDeDocumentosController(ContabilidadDbContext db)
+        private readonly IConfiguration _conf;
+
+        public EntraDeDocumentosController(ContabilidadDbContext db, IConfiguration conf)
         {
             _db = db;
+            _conf = conf;
         }
 
         [HttpGet]
@@ -123,5 +133,33 @@ namespace WebApiContabilidadSystem.Controllers
                                     && x.FECHA_DOCUMENTO <= model.Hasta.Date);
             return result;
         }
+
+        [HttpPost]
+        public string Contabilizar ([FromBody] IEnumerable<int> documentosIds)
+        {
+
+            var documentos = _db.EntradaDocumento.Include("TIPO_DOCUMENTO")
+                        .Include("PROVEEDOR").Where(x => documentosIds.Contains(x.NUMERO_DOCUMENTO)).ToList();
+            var asiento = int.Parse(_conf.GetSection("AccountingSettings").GetSection("IdAuxiliar").Value);
+            var credito = int.Parse(_conf.GetSection("AccountingSettings").GetSection("CuentaCredito").Value);
+
+            var contabilidad = new ServicioContabilidad().Contabilizar(documentos, asiento, credito);
+            var contabilidadJson = System.Text.Json.JsonSerializer.Serialize(contabilidad);
+            var resquestContent = new StringContent(contabilidadJson, Encoding.UTF8, "application/json");
+            HttpClient client = new HttpClient();
+            client.BaseAddress = new Uri(_conf.GetSection("AccountingSettings").GetSection("Contabilizar").Value);
+
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+            var response = client.PostAsync("", resquestContent).Result;
+            if (response.IsSuccessStatusCode)
+            {
+                Console.Write("Success");
+            }
+            else
+                Console.Write("Error");
+            return "";
+
+    }
     }
 }
