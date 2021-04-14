@@ -1,7 +1,7 @@
 <template>
     <v-card>
         <v-card-title>Conceptos de Pago</v-card-title>
-         <v-card-text>
+        <v-card-text>
             <v-text-field
                 append-icon="search"
                 label="Buscar"

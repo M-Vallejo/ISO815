@@ -25,38 +25,38 @@ export default {
                     to: 'home',
                     text: "Dashboard",
                     icon: 'mdi-home',
-                    role: 0
+                    role: [0, 1]
                 },
                 {
                     to: 'proveedores',
                     text: "Proveedores",
                     icon: 'mdi-bag-personal',
-                    role: 0
+                    role: [0, 1]
                 },
                 {
                     to: 'conceptos',
                     text: "Conceptos de Pago",
                     icon: 'mdi-newspaper',
-                    role: 0
+                    role: [0, 1]
                 },
                 {
                     to: 'usuarios',
                     text: "Usuarios",
                     icon: 'group',
-                    role: 1
+                    role: [1]
                 },
                 {
-                    to: 'tipo_documentos',
+                    to: 'tipodocumento',
                     text: "Tipos de Documentos",
-                    icon: 'group',
-                    role: 0
+                    icon: 'description',
+                    role: [0, 1]
                 }
             ]
         }
     },
     computed: {
         linksForUsers: function() {
-            return this.links.filter(link => link.role == parseInt(this.user.rol));
+            return this.links.filter(link => link.role.includes(parseInt(this.user.rol)));
         }
     },
 }
