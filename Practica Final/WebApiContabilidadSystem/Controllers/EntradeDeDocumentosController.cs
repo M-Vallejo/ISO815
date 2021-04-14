@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using WebApiContabilidadSystem.Data;
 using WebApiContabilidadSystem.Models;
+using WebApiContabilidadSystem.Models.ViewModels;
 
 namespace WebApiContabilidadSystem.Controllers
 {
@@ -28,7 +29,6 @@ namespace WebApiContabilidadSystem.Controllers
             var p = _db.EntradaDocumento
                         .Include("TIPO_DOCUMENTO")
                         .Include("PROVEEDOR")
-                        .ToList()
                         .Where(x => x.ESTADO != (int)Estado.Eliminado)
                         .OrderByDescending(x => x.ESTADO);
             return p;
@@ -108,6 +108,20 @@ namespace WebApiContabilidadSystem.Controllers
                 return Ok();
             }
             return NotFound();
+        }
+
+        [HttpGet]
+        public IEnumerable<ENTRADA_DOCUMENTO> Search(AccountingSearchViewModel model) 
+        {
+            var result = _db.EntradaDocumento
+                        .Include("TIPO_DOCUMENTO")
+                        .Include("PROVEEDOR")
+                        .Where(x => 
+                                    x.ESTADO != (int)Estado.Eliminado 
+                                    && x.ID_ASIENTO == null 
+                                    && x.FECHA_DOCUMENTO >= model.Desde.Date 
+                                    && x.FECHA_DOCUMENTO <= model.Hasta.Date);
+            return result;
         }
     }
 }
