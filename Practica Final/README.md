@@ -116,47 +116,52 @@ Clase `AccountingService/ServicioContabilidad` que contendrá la lógica necesar
   
 #### Datos a enviar a contabilidad
 > HTTP POST
-> Endpoint de contabilidad (a definir)
-##### Opción 1
+> https://ef8f2ff38f73.ngrok.io/api/accountingEntry
   ```cs
-    descripcion: string,
-    idAuxiliar: int,
-    cuentaDebito: int,
-    cuentaCredito: int,
-    monto: decimal
-  ```
-##### Opción 2
-  ```cs
-    descripcion: string,
-    idAuxiliar: int,
-    tipoMovimiento: int, // DB, CR
-    numeroCuenta: int,
-    monto: decimal
+    description: string
+    idAuxiliarSystem: int
+    movementType: int // DB, CR
+    account: int //82, 4
+    seatAmount: decimal
   ```
 #### Datos a recibir por contabilidad
   ```cs
-    idAsiento: int,
-    fechaAsiento: DateTime,
-    estado: int
+    id: int
+    description: string
+    idAuxiliarSystem: int
+    account: string
+    movementType: string //DB, CR
+    entryDate: DateTime
+    seatAmount: decimal
+    status: bool
   ```
-
 #### Ejemplo de integración
 > HTTP POST
-> Endpoint de contabilidad (a definir)
+> https://ef8f2ff38f73.ngrok.io/api/accountingEntry
 
 Parámetros (Body)
   ```json
-    "descripcion": "Asiento contable de inventario correspondiente al período 2021-04",
-    "idAuxiliar": 6,
-    "cuentaDebito": 82,
-    "cuentaCredito": 4,
-    "monto": 15800.32
+    {
+      "description": "Asiento contable de cuentas por pagar del periodo 2021-04",
+      "idAuxiliarSystem": 6,
+      "account": 82,
+      "movementType": "DB",
+      "entryDate": "2021-04-13",
+      "seatAmount": 15800.32
+    }
   ```
 Respuesta
   ```json
-    "idAsiento": 22,
-    "fechaAsiento": "2021-04-14T12:19:21.941Z",
-    "estado": 1
+    {
+      "id": 38,
+      "description": "Asiento contable de cuentas por pagar del periodo 2021-04",
+      "idAuxiliarSystem": 6,
+      "account": "82",
+      "movementType": "DB",
+      "entryDate": "2021-04-13T00:00:00",
+      "seatAmount": 15800.32,
+      "status": false
+    }
   ```
   
 ## Frontend
