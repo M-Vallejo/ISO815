@@ -112,12 +112,53 @@
   ```
 ### Integración contabilidad
 
-  Clase `AccountingService/ServicioContabilidad`  que contendrá la lógica necesaria para la integración con el web service de contabilidad.
-  - Método de Procesar Asientos que recibirá como parámetros la suma de los montos de los asientos contables (entrada de documentos) enviados por el frontend; los datos de configuración como lo son el Id del Auxiliar, cuenta débido, cuenta crédito y el texto:
-    - > Asiento contable de inventario correspondiente al período yyyy-MM
-    - Debe devolver un string con el número de asiento contable que retorne contabilidad.
-  - Se deben actualizar los asientos (entrada de documentos) utilizados para enviar a contabilidad, con el id de asiento que envia contabilidad luego de procesar los asientos enviados. El campo a actualizar será el `ID_ASIENTO`.
+Clase `AccountingService/ServicioContabilidad` que contendrá la lógica necesaria para la integración con el web service de contabilidad. En esta clase debe haber un metodo que se encargará de enviarle los datos a contabilidad y recibir la información que ellos generen. Esa información será utilizada para actualizar las entradas de documentos que se utilizaron para enviar a contabilidad.
+  
+#### Datos a enviar a contabilidad
+> HTTP POST
+> Endpoint de contabilidad (a definir)
+##### Opción 1
+  ```cs
+    descripcion: string,
+    idAuxiliar: int,
+    cuentaDebito: int,
+    cuentaCredito: int,
+    monto: decimal
+  ```
+##### Opción 2
+  ```cs
+    descripcion: string,
+    idAuxiliar: int,
+    tipoMovimiento: int, // DB, CR
+    numeroCuenta: int,
+    monto: decimal
+  ```
+#### Datos a recibir por contabilidad
+  ```cs
+    idAsiento: int,
+    fechaAsiento: DateTime,
+    estado: int
+  ```
 
+#### Ejemplo de integración
+> HTTP POST
+> Endpoint de contabilidad (a definir)
+
+Parámetros (Body)
+  ```json
+    "descripcion": "Asiento contable de inventario correspondiente al período 2021-04",
+    "idAuxiliar": 6,
+    "cuentaDebito": 82,
+    "cuentaCredito": 4,
+    "monto": 15800.32
+  ```
+Respuesta
+  ```json
+    "idAsiento": 22,
+    "fechaAsiento": "2021-04-14T12:19:21.941Z",
+    "estado": 1
+  ```
+  
 ## Frontend
 
 ### Requerimientos
@@ -172,7 +213,7 @@
     ...
   },
   "AccountingSettings": {
-    "AsientoId": 6,
+    "IdAuxiliar": 6,
     "CuentaDebito": 82,
     "CuentaCredito": 4
   },
@@ -210,7 +251,7 @@
     > https://localhost:44348/api/account/Login
 
     Parámetros (Body)
-    ```c#
+    ```cs
         username: string
         password: string
     ```
@@ -224,7 +265,7 @@
     > https://localhost:44348/api/account/IsAuthorized
     
     Parámetros (Header)
-    ```c#
+    ```cs
         Authorization: string
     ```
     
@@ -241,12 +282,12 @@
     - 200 Una lista de Proveedores. 
 
  - ###### Obtener proveedores por estado
-        >HTTP GET
-        >https://localhost:44348/api/proveedores/GetProveedoresByEstatus/{Estado}
+        > HTTP GET
+        > https://localhost:44348/api/proveedores/GetProveedoresByEstatus/{Estado}
         
 
         Parámetros (Params)
-        ```c#
+        ```cs
             Estado: int
         ```
         Respuesta
@@ -254,11 +295,11 @@
     - 200 Lista de proveedores por estado.
 
 - ###### Obtener proveedores por id
-        >Http GET
-        >https://localhost:44348/api/proveedores/GetProveedorById/id
+        > Http GET
+        > https://localhost:44348/api/proveedores/GetProveedorById/id
 
         Parámetros ()
-        ```c#
+        ```cs
             id: int
         ```
         
@@ -268,11 +309,11 @@
     - 404 No encontro el registro.
     
  - ###### Crear Proveedor
-        >Http Post
-        >https://localhost:44348/api/proveedores/CreateProveedor
+        > Http Post
+        > https://localhost:44348/api/proveedores/CreateProveedor
         
         Parámetros (Body)
-        ```c#
+        ```cs
             "nombre": string,
             "tipo_persona": int,
             "tipo_documento": int,
@@ -285,11 +326,11 @@
     - 500 Error al crear el registro.
     
    - ###### Editar Proveedor
-        >Http Put
-        >https://localhost:44348/api/proveedores/EditProveedor
+        > Http Put
+        > https://localhost:44348/api/proveedores/EditProveedor
               
         Parámetros (Body)
-        ```c#
+        ```cs
             proveedor_id: int
             nombre: string
             tipo_persona: int
@@ -306,11 +347,11 @@
     - 500 Error al editar el registro.
 
   - ###### Editar Proveedor
-        >Http Put
-        >https://localhost:44348/api/proveedores/ChangeEstadoProveedores?id=5&estado=2
+        > Http Put
+        > https://localhost:44348/api/proveedores/ChangeEstadoProveedores?id=5&estado=2
               
         Parámetros (Query)
-        ```c#
+        ```cs
             id: int,
             estado: int
             
@@ -331,12 +372,12 @@
     - 401 (unauthorized) si el token es inválido
     - 200 Una lista de Concepto de Pagos. 
  - ###### Obtener Conceptos de pagos
-        >HTTP GET
-        >https://localhost:44348/api/ConceptoPago/GetConceptoPagoByEstatus/{Estado}
+        > HTTP GET
+        > https://localhost:44348/api/ConceptoPago/GetConceptoPagoByEstatus/{Estado}
         
 
-        Parámetros (Params)
-        ```c#
+        Parámetros (URL)
+        ```cs
             Estado: int
         ```
         Respuesta
@@ -344,11 +385,11 @@
     - 200 Lista de concepto de pagos por estado.
 
 - ###### Obtener Concepto de pagos por id
-        >Http GET
-        >https://localhost:44348/api/ConceptoPago/GetConceptoPagoById/id
+        > Http GET
+        > https://localhost:44348/api/ConceptoPago/GetConceptoPagoById/{id}
 
-        Parámetros ()
-        ```c#
+        Parámetros
+        ```cs
             id: int
         ```
         
@@ -358,11 +399,11 @@
     - 404 No encontro el registro.
     
  - ###### Crear Concepto de pagos
-        >Http Post
-        >https://localhost:44348/api/ConceptoPago/CreateConceptoPago
+        > Http Post
+        > https://localhost:44348/api/ConceptoPago/CreateConceptoPago
         
         Parámetros (Body)
-        ```c#
+        ```cs
             descripcion: string
         ```
             Respuesta
@@ -371,11 +412,11 @@
     - 500 Error al crear el registro.
     
    - ###### Editar Concepto de pagos
-        >Http Put
-        >https://localhost:44348/api/ConceptoPago/EditConceptoPago
+        > Http Put
+        > https://localhost:44348/api/ConceptoPago/EditConceptoPago
               
         Parámetros (Body)
-        ```c#
+        ```cs
             Concepto_pago_id: int,
             descripcion: string,
             estado: int
@@ -388,11 +429,11 @@
     - 500 Error al editar el registro.
 
   - ###### Editar estado de Concepto de pago
-        >Http Put
-        >https://localhost:44348/api/ConceptoPago/ChangeEstadoConceptoPago?id=5&estado=2
+        > Http Put
+        > https://localhost:44348/api/ConceptoPago/ChangeEstadoConceptoPago?id=5&estado=2
               
         Parámetros (Query)
-        ```c#
+        ```cs
             id: int,
             estado: int
             
@@ -412,11 +453,11 @@
     - 200 Una lista de Usuarios. 
 
 - ###### Obtener usuario por id
-        >Http GET
-        >https://localhost:44348/api/usuario/GetUsuarioById/1
+        > Http GET
+        > https://localhost:44348/api/usuario/GetUsuarioById/1
 
         Parámetros ()
-        ```c#
+        ```cs
             id: int
         ```
         
@@ -427,11 +468,11 @@
 
 
  - ###### Crear usuario
-        >Http Post
-        >https://localhost:44348/api/usuario/CreateUsuario
+        > Http Post
+        > https://localhost:44348/api/usuario/CreateUsuario
         
         Parámetros (Body)
-        ```c#
+        ```cs
             NOMBRE_USUARIO: string,
             CLAVE": string,
             NOMBRE: string,
@@ -445,11 +486,11 @@
     - 500 Error al crear el registro.
 
  - ###### Editar Usuarios
-        >Http Put
-        >https://localhost:44348/api/ConceptoPago/EditConceptoPago
+        > Http Put
+        > https://localhost:44348/api/ConceptoPago/EditConceptoPago
               
         Parámetros (Body)
-        ```c#
+        ```cs
             USUARIO_ID : int,
             NOMBRE_USUARIO: string,
             CLAVE": string,
@@ -458,7 +499,6 @@
             CORREO: string,
             ROl:int
             ESTADO = int
-            
         ```
             Respuesta
     - 401 (unauthorized) si el token es inválido
@@ -467,11 +507,11 @@
     - 500 Error al editar el registro.
     - 
  - ###### Editar estado de usuario
-        >Http Put
-        >https://localhost:44348/api/ConceptoPago/ChangeEstadoConceptoPago?id=5&estado=2
+        > Http Put
+        > https://localhost:44348/api/ConceptoPago/ChangeEstadoConceptoPago?id=5&estado=2
               
         Parámetros (Query)
-        ```c#
+        ```cs
             id: int,
             estado: int
             
