@@ -14,10 +14,10 @@ namespace WebApiContabilidadSystem.Controllers
     [Route("api/[controller]/[action]")]
     [ApiController]
     [Authorize]
-    public class EntradeDeDocumentosController : ControllerBase
+    public class EntraDeDocumentosController : ControllerBase
     {
         private readonly ContabilidadDbContext _db;
-        public EntradeDeDocumentosController(ContabilidadDbContext db)
+        public EntraDeDocumentosController(ContabilidadDbContext db)
         {
             _db = db;
         }
