@@ -129,7 +129,7 @@ Clase `AccountingService/ServicioContabilidad` que contendrá la lógica necesar
     id: int
     description: string
     idAuxiliarSystem: int
-    account: string
+    account: string //82, 4
     movementType: string //DB, CR
     entryDate: DateTime
     seatAmount: decimal
@@ -146,7 +146,6 @@ Parámetros (Body)
       "idAuxiliarSystem": 6,
       "account": 82,
       "movementType": "DB",
-      "entryDate": "2021-04-13",
       "seatAmount": 15800.32
     }
   ```
@@ -279,249 +278,239 @@ Respuesta
     - Token renovado si el token anterior es válido y aún no ha expirado
  
  - ###### Obtener Todos los proveedores
-       > HTTP GET
-       > https://localhost:44348/api/proveedores/get
+    > HTTP GET
+    > https://localhost:44348/api/proveedores/get
         
-         Respuesta
+    Respuesta
     - 401 (unauthorized) si el token es inválido
     - 200 Una lista de Proveedores. 
 
  - ###### Obtener proveedores por estado
-        > HTTP GET
-        > https://localhost:44348/api/proveedores/GetProveedoresByEstatus/{Estado}
+    > HTTP GET
+    > https://localhost:44348/api/proveedores/GetProveedoresByEstatus/{Estado}
         
-
-        Parámetros (Params)
-        ```cs
-            Estado: int
-        ```
-        Respuesta
+    Parámetros (URL)
+    ```cs
+        Estado: int
+    ```
+    Respuesta
     - 401 (unauthorized) si el token es inválido
     - 200 Lista de proveedores por estado.
 
 - ###### Obtener proveedores por id
-        > Http GET
-        > https://localhost:44348/api/proveedores/GetProveedorById/id
+    > Http GET
+    > https://localhost:44348/api/proveedores/GetProveedorById/{id}
 
-        Parámetros ()
-        ```cs
-            id: int
-        ```
-        
-        Respuesta
+    Parámetros (URL)
+    ```cs
+        id: int
+    ```
+    Respuesta
     - 401 (unauthorized) si el token es inválido
     - 200 un proveedor.
     - 404 No encontro el registro.
     
  - ###### Crear Proveedor
-        > Http Post
-        > https://localhost:44348/api/proveedores/CreateProveedor
-        
-        Parámetros (Body)
-        ```cs
-            "nombre": string,
-            "tipo_persona": int,
-            "tipo_documento": int,
-            "numero_documento": string,
-            "balance":decimal
-        ```
-            Respuesta
+    > Http Post
+    > https://localhost:44348/api/proveedores/CreateProveedor
+
+    Parámetros (Body)
+    ```cs
+        nombre: string
+        tipo_persona: int
+        tipo_documento: int
+        numero_documento: string
+        balance: decimal
+    ```
+    Respuesta
     - 401 (unauthorized) si el token es inválido
     - 200 Crea un nuevo proveedor.
     - 500 Error al crear el registro.
     
    - ###### Editar Proveedor
-        > Http Put
-        > https://localhost:44348/api/proveedores/EditProveedor
+    > Http Put
+    > https://localhost:44348/api/proveedores/EditProveedor
               
-        Parámetros (Body)
-        ```cs
-            proveedor_id: int
-            nombre: string
-            tipo_persona: int
-            tipo_documento: int
-            numero_documento: string
-            balance: decimal: decimal
-            estado: int
-            
-        ```
-            Respuesta
+    Parámetros (Body)
+    ```cs
+        proveedor_id: int
+        nombre: string
+        tipo_persona: int
+        tipo_documento: int
+        numero_documento: string
+        balance: decimal: decimal
+        estado: int
+    ```
+    Respuesta
     - 401 (unauthorized) si el token es inválido
     - 200 Edita el registro.
     - 404 Registro no encontrado
     - 500 Error al editar el registro.
 
   - ###### Editar Proveedor
-        > Http Put
-        > https://localhost:44348/api/proveedores/ChangeEstadoProveedores?id=5&estado=2
-              
-        Parámetros (Query)
-        ```cs
-            id: int,
-            estado: int
-            
-        ```
-            Respuesta
+    > Http Put
+    > https://localhost:44348/api/proveedores/ChangeEstadoProveedores?id=5&estado=2
+
+    Parámetros (Params)
+    ```cs
+        id: int
+        estado: int
+    ```
+    Respuesta
     - 401 (unauthorized) si el token es inválido
     - 200 Edita el registro.
     - 404 Registor no encontrado
     - 500 Error al editar el registro.
 
-
-
  - ###### Obtener Todos los Conceptos de Pago
-       > HTTP GET
-       > https://localhost:44348/api/ConceptoPago/get
-        
-         Respuesta
+    > HTTP GET
+    > https://localhost:44348/api/ConceptoPago/get
+
+    Respuesta
     - 401 (unauthorized) si el token es inválido
     - 200 Una lista de Concepto de Pagos. 
+    
  - ###### Obtener Conceptos de pagos
-        > HTTP GET
-        > https://localhost:44348/api/ConceptoPago/GetConceptoPagoByEstatus/{Estado}
-        
+    > HTTP GET
+    > https://localhost:44348/api/ConceptoPago/GetConceptoPagoByEstatus/{Estado}
 
-        Parámetros (URL)
-        ```cs
-            Estado: int
-        ```
-        Respuesta
+
+    Parámetros (URL)
+    ```cs
+        Estado: int
+    ```
+    Respuesta
     - 401 (unauthorized) si el token es inválido
     - 200 Lista de concepto de pagos por estado.
 
 - ###### Obtener Concepto de pagos por id
-        > Http GET
-        > https://localhost:44348/api/ConceptoPago/GetConceptoPagoById/{id}
+    > Http GET
+    > https://localhost:44348/api/ConceptoPago/GetConceptoPagoById/{id}
 
-        Parámetros
-        ```cs
-            id: int
-        ```
-        
-        Respuesta
+    Parámetros (URL)
+    ```cs
+        id: int
+    ```
+    Respuesta
     - 401 (unauthorized) si el token es inválido
     - 200 Un concepto de pago.
     - 404 No encontro el registro.
     
  - ###### Crear Concepto de pagos
-        > Http Post
-        > https://localhost:44348/api/ConceptoPago/CreateConceptoPago
-        
-        Parámetros (Body)
-        ```cs
-            descripcion: string
-        ```
-            Respuesta
+    > Http Post
+    > https://localhost:44348/api/ConceptoPago/CreateConceptoPago
+
+    Parámetros (Body)
+    ```cs
+        descripcion: string
+    ```
+    Respuesta
     - 401 (unauthorized) si el token es inválido
     - 200 Crea un nuevo concepto de pago.
     - 500 Error al crear el registro.
     
    - ###### Editar Concepto de pagos
-        > Http Put
-        > https://localhost:44348/api/ConceptoPago/EditConceptoPago
-              
-        Parámetros (Body)
-        ```cs
-            Concepto_pago_id: int,
-            descripcion: string,
-            estado: int
-            
-        ```
-            Respuesta
+    > Http Put
+    > https://localhost:44348/api/ConceptoPago/EditConceptoPago
+
+    Parámetros (Body)
+    ```cs
+        Concepto_pago_id: int
+        descripcion: string
+        estado: int
+    ```
+    Respuesta
     - 401 (unauthorized) si el token es inválido
     - 200 Edita el registro.
     - 404 Registro no encontrado
     - 500 Error al editar el registro.
 
   - ###### Editar estado de Concepto de pago
-        > Http Put
-        > https://localhost:44348/api/ConceptoPago/ChangeEstadoConceptoPago?id=5&estado=2
-              
-        Parámetros (Query)
-        ```cs
-            id: int,
-            estado: int
-            
-        ```
-            Respuesta
+    > Http Put
+    > https://localhost:44348/api/ConceptoPago/ChangeEstadoConceptoPago?id=5&estado=2
+
+    Parámetros (Params)
+    ```cs
+        id: int
+        estado: int
+    ```
+    Respuesta
     - 401 (unauthorized) si el token es inválido
     - 200 Edita el registro.
     - 404 Registor no encontrado
     - 500 Error al editar el registro.
 
 - ###### Obtener Todos los Usuarios
-       > HTTP GET
-       > https://localhost:44348/api/usuario/get
-        
-         Respuesta
+    > HTTP GET
+    > https://localhost:44348/api/usuario/get
+
+    Respuesta
     - 401 (unauthorized) si el token es inválido
     - 200 Una lista de Usuarios. 
 
 - ###### Obtener usuario por id
-        > Http GET
-        > https://localhost:44348/api/usuario/GetUsuarioById/1
+    > Http GET
+    > https://localhost:44348/api/usuario/GetUsuarioById/{id}
 
-        Parámetros ()
-        ```cs
-            id: int
-        ```
-        
-        Respuesta
+    Parámetros (URL)
+    ```cs
+        id: int
+    ```
+    Respuesta
     - 401 (unauthorized) si el token es inválido
     - 200 Un Usuario
     - 404 No encontro el registro.
 
 
  - ###### Crear usuario
-        > Http Post
-        > https://localhost:44348/api/usuario/CreateUsuario
-        
-        Parámetros (Body)
-        ```cs
-            NOMBRE_USUARIO: string,
-            CLAVE": string,
-            NOMBRE: string,
-            APELLIDOS:string,
-            CORREO: string,
-            ROl:int
-        ```
-            Respuesta
+    > Http Post
+    > https://localhost:44348/api/usuario/CreateUsuario
+
+    Parámetros (Body)
+    ```cs
+        NOMBRE_USUARIO: string
+        CLAVE: string
+        NOMBRE: string
+        APELLIDOS:string
+        CORREO: string
+        ROL: int
+    ```
+    Respuesta
     - 401 (unauthorized) si el token es inválido
     - 200 Crea un nuevo usuario.
     - 500 Error al crear el registro.
 
  - ###### Editar Usuarios
-        > Http Put
-        > https://localhost:44348/api/ConceptoPago/EditConceptoPago
-              
-        Parámetros (Body)
-        ```cs
-            USUARIO_ID : int,
-            NOMBRE_USUARIO: string,
-            CLAVE": string,
-            NOMBRE: string,
-            APELLIDOS:string,
-            CORREO: string,
-            ROl:int
-            ESTADO = int
-        ```
-            Respuesta
+    > Http Put
+    > https://localhost:44348/api/ConceptoPago/EditConceptoPago
+
+    Parámetros (Body)
+    ```cs
+        USUARIO_ID : int
+        NOMBRE_USUARIO: string
+        CLAVE: string
+        NOMBRE: string
+        APELLIDOS:string
+        CORREO: string
+        ROL: int
+        ESTADO: int
+    ```
+    Respuesta
     - 401 (unauthorized) si el token es inválido
     - 200 Edita el registro.
     - 404 Registro no encontrado
     - 500 Error al editar el registro.
     - 
  - ###### Editar estado de usuario
-        > Http Put
-        > https://localhost:44348/api/ConceptoPago/ChangeEstadoConceptoPago?id=5&estado=2
-              
-        Parámetros (Query)
-        ```cs
-            id: int,
-            estado: int
-            
-        ```
-            Respuesta
+    > Http Put
+    > https://localhost:44348/api/ConceptoPago/ChangeEstadoConceptoPago?id=5&estado=2
+
+    Parámetros (Params)
+    ```cs
+        id: int
+        estado: int
+    ```
+    Respuesta
     - 401 (unauthorized) si el token es inválido
     - 200 Edita el registro.
     - 404 Registro no encontrado
