@@ -6,6 +6,7 @@ import Home from '@/views/Home'
 import Conceptos from '@/views/Conceptos'
 import Usuarios from '@/views/Usuario'
 import TipoDocumento from '@/views/TipoDocumento'
+import EntradaDocumento from '@/views/EntradaDocumento'
 
 Vue.use(VueRouter)
 
@@ -20,8 +21,7 @@ const routes = [
 		name: 'Home',
 		component: Home,
 		meta: {
-			requiresAuth: true,
-            userRole: 0
+			requiresAuth: true
 		}
 	},
     {
@@ -29,8 +29,7 @@ const routes = [
 		name: "Proveedores",
 		component: Proveedor,
 		meta: {
-			requiresAuth: true,
-            userRole: 0
+			requiresAuth: true
 		}
     },
     {
@@ -38,8 +37,7 @@ const routes = [
 		name: "Conceptos",
 		component: Conceptos,
 		meta: {
-			requiresAuth: true,
-            userRole: 0
+			requiresAuth: true
 		}
     },
     {
@@ -47,8 +45,7 @@ const routes = [
         name: "Usuarios",
         component: Usuarios,
         meta: {
-            requiresAuth: true,
-            userRole: 1
+            requiresAuth: true
         }
     },
     {
@@ -56,8 +53,15 @@ const routes = [
         name: "Tipo Documento",
         component: TipoDocumento,
         meta: {
-            requiresAuth: true,
-            userRole: 0
+            requiresAuth: true
+        }
+    },
+    {
+        path: '/entradadocumento',
+        name: "Entrada Documento",
+        component: EntradaDocumento,
+        meta: {
+            requiresAuth: true
         }
     }
 ];
@@ -69,11 +73,9 @@ const router = new VueRouter({
 
 router.beforeEach((to, _from, next) => {
 	const currentUser = localStorage.getItem("token");
-    const user = JSON.parse(localStorage.getItem('user'));
 
 	if (to.meta.requiresAuth && !currentUser) next('login');
 	else if (!to.meta.requiresAuth && currentUser) next('home');
-    else if ((user) && to.meta.userRole != parseInt(user.rol)) next('home');
 	else next();
 });
 
