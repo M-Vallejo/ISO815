@@ -7,6 +7,7 @@ import Conceptos from '@/views/Conceptos'
 import Usuarios from '@/views/Usuario'
 import TipoDocumento from '@/views/TipoDocumento'
 import EntradaDocumento from '@/views/EntradaDocumento'
+import AsientosContable from '@/views/AsientosContable'
 
 Vue.use(VueRouter)
 
@@ -60,6 +61,14 @@ const routes = [
         path: '/entradadocumento',
         name: "Entrada Documento",
         component: EntradaDocumento,
+        meta: {
+            requiresAuth: true
+        }
+    },
+    {
+        path: '/asientoscontable',
+        name: "Asientos contable",
+        component: AsientosContable,
         meta: {
             requiresAuth: true
         }

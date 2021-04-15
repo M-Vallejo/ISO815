@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 using WebApiContabilidadSystem.AccountingService;
 using WebApiContabilidadSystem.Data;
 using WebApiContabilidadSystem.Models;
+using WebApiContabilidadSystem.Models.DTO;
 using WebApiContabilidadSystem.Models.ViewModels;
 
 namespace WebApiContabilidadSystem.Controllers
@@ -67,19 +68,15 @@ namespace WebApiContabilidadSystem.Controllers
         }
 
         [HttpPost]
-        public ActionResult CreateEntradaDocumento([FromBody] ENTRADA_DOCUMENTO EntradaDocumento)
+        public ActionResult CreateEntradaDocumento([FromBody] EntradaDocumentViewModel EntradaDocumento)
         {
-            try
-            {
-                EntradaDocumento.ESTADO = (int)Estado.Activo;
-                _db.EntradaDocumento.Add(EntradaDocumento);
-                _db.SaveChanges();
-                return Ok();
-            }
-            catch (Exception e)
-            {
-                return StatusCode(500, e.Message);
-            }
+            var entity = EntradaDocumento.ToEntity();
+            entity.PROVEEDOR = _db.Proveedor.FirstOrDefault(x => x.PROVEEDOR_ID == entity.PROVEEDOR.PROVEEDOR_ID);
+            entity.TIPO_DOCUMENTO = _db.TIPO_DOCUMENTO.FirstOrDefault(x => x.TIPO_DOCUMENTO_ID == entity.TIPO_DOCUMENTO.TIPO_DOCUMENTO_ID);
+
+            _db.EntradaDocumento.Add(entity);
+            _db.SaveChanges();
+            return Ok(entity.NUMERO_DOCUMENTO);
         }
 
         [HttpPut]
@@ -119,26 +116,26 @@ namespace WebApiContabilidadSystem.Controllers
             return NotFound();
         }
 
-        [HttpGet]
-        public IEnumerable<ENTRADA_DOCUMENTO> Search(AccountingSearchViewModel model) 
+        [HttpPost]
+        public IEnumerable<AsientoDTO> Search(AccountingSearchViewModel model) 
         {
             var result = _db.EntradaDocumento
                         .Include("TIPO_DOCUMENTO")
                         .Include("PROVEEDOR")
                         .Where(x => x.ID_ASIENTO == null 
                                     && x.FECHA_DOCUMENTO >= model.Desde.Date 
-                                    && x.FECHA_DOCUMENTO <= model.Hasta.Date);
+                                    && x.FECHA_DOCUMENTO <= model.Hasta.Date)
+                        .Select(x=> new AsientoDTO(x));
             return result;
         }
 
         [HttpPost]
-        public ActionResult Contabilizar ([FromBody] IEnumerable<int> documentosIds)
+        public ActionResult Contabilizar ([FromBody] TransactionsViewModel model)
         {
-
             try
             {
                 var documentos = _db.EntradaDocumento.Include("TIPO_DOCUMENTO")
-                        .Include("PROVEEDOR").Where(x => documentosIds.Contains(x.NUMERO_DOCUMENTO)).ToList();
+                        .Include("PROVEEDOR").Where(x => model.Transactions.Contains(x.NUMERO_DOCUMENTO)).ToList();
                 var asiento = int.Parse(_conf.GetSection("AccountingSettings").GetSection("IdAuxiliar").Value);
                 var credito = int.Parse(_conf.GetSection("AccountingSettings").GetSection("CuentaCredito").Value);
 
@@ -154,21 +151,19 @@ namespace WebApiContabilidadSystem.Controllers
                 if (response.IsSuccessStatusCode)
                 {
                     var contents = response.Content.ReadAsStringAsync();
-                    var model = JsonConvert.DeserializeObject<ContabilidadViewModel>(contents.Result);
+                    var mdl = JsonConvert.DeserializeObject<ContabilidadViewModel>(contents.Result);
 
                     foreach (var documento in documentos)
                     {
-                        documento.ID_ASIENTO = model.id;
-                        documento.FECHA_PROCESO = model.entryDate == DateTime.MinValue ? null : model.entryDate;
+                        documento.ID_ASIENTO = mdl.id;
+                        documento.FECHA_PROCESO = mdl.entryDate == DateTime.MinValue ? null : mdl.entryDate;
                     }
-
 
                     _db.SaveChanges();
                 }
                 else
                 {
                     return BadRequest("El api fallo");
-
                 }
                 return Ok();
             }
@@ -176,7 +171,6 @@ namespace WebApiContabilidadSystem.Controllers
             {
                 return BadRequest(e.Message);
             }
-            
         }
     }
 }

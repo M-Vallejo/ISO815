@@ -54,7 +54,13 @@ export default {
                 {
                     to: 'entradadocumento',
                     text: "Entrada de Documentos",
-                    icon: 'description',
+                    icon: 'mdi-chart-box',
+                    role: [0, 1]
+                },
+                {
+                    to: 'asientoscontable',
+                    text: "Asientos contable",
+                    icon: 'mdi-calculator-variant',
                     role: [0, 1]
                 }
             ]

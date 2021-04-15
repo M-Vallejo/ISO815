@@ -16,7 +16,7 @@
 
   <ItemGroup>
     <Folder Include="ClientApp\" />
-    <DistFiles Include="$(SpaRoot)build\**"/>
+    <DistFiles Include="$(SpaRoot)build\**" />
   </ItemGroup>
 
   <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>

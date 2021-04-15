@@ -122,6 +122,7 @@
                     </v-dialog>
                 </v-toolbar>
             </template>
+            
             <template v-slot:item.estado="{ item }">
                 <Statusfortable :item="item.estado" />
             </template>
