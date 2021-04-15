@@ -71,6 +71,7 @@
       ID_ASIENTO INT NULL,
       CONDICIONES VARCHAR(255) NULL,
       FECHA_REGISTRO DATETIME NOT NULL DEFAULT(GETDATE()),
+      FECHA_PROCESO DATETIME NULL,
       ESTADO INT NOT NULL DEFAULT(1)
   )
   ```
@@ -109,6 +110,11 @@
   ```cs
     0 - Fisica
     1 - Juridica
+  ```
+- Estado pago
+  ```cs
+    0 - Pendiente
+    1 - Pagado
   ```
 ### Integración contabilidad
 

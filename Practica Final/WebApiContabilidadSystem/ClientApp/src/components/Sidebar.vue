@@ -50,6 +50,12 @@ export default {
                     text: "Tipos de Documentos",
                     icon: 'description',
                     role: [0, 1]
+                },
+                {
+                    to: 'entradadocumento',
+                    text: "Entrada de Documentos",
+                    icon: 'description',
+                    role: [0, 1]
                 }
             ]
         }
