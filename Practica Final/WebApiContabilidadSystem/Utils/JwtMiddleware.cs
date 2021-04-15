@@ -22,7 +22,7 @@ namespace WebApiContabilidadSystem.Utils
             _appSettings = appSettings.Value;
         }
 
-        public async Task Invoke(HttpContext context, ContabilidadDbContext dbContext)
+        public async Task Invoke(HttpContext context, IDataBaseContext dbContext)
         {
             var token = context.Request.Headers["Authorization"].FirstOrDefault()?
                                                                 .Split(" ")
@@ -34,7 +34,7 @@ namespace WebApiContabilidadSystem.Utils
             await _next(context);
         }
 
-        private void AttachUserToContext(HttpContext context, ContabilidadDbContext dbContext, string token)
+        private void AttachUserToContext(HttpContext context, IDataBaseContext dbContext, string token)
         {
             try
             {

@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using RRHH.Services.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,11 +37,22 @@ namespace WebApiContabilidadSystem
                 configuration.RootPath = "ClientApp/dist";
             });
 
-            services.AddControllers();
-            services.AddDbContext<ContabilidadDbContext>(options => {
+            string connectionString = string.Empty;
+#if DEBUG
+            connectionString = Configuration.GetConnectionString("DefaultConnection");
+            services.AddDbContext<IDataBaseContext, SQLServerDbContext>(options => {
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             });
+#else   
+            //connectionString = "Server=localhost;Database=CONTABILIDAD;Uid=root;Pwd=1234;";
+            connectionString = Environment.GetEnvironmentVariable("MYSQLCONNSTR_localdb") ?? connectionString;
 
+            services.AddDbContext<IDataBaseContext, MySQLDbContext>(options =>
+            {
+                options.UseMySql(new ConnectionString(connectionString).ToMySql());
+            });
+#endif
+            services.AddControllers();
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
 
             services.AddCors(option => 
@@ -87,7 +99,7 @@ namespace WebApiContabilidadSystem
 
             // Nos aseguramos de que la base de datos exista y, encaso contrario, la creamos con un usuario por defecto.
             using var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope();
-            var context = serviceScope.ServiceProvider.GetRequiredService<ContabilidadDbContext>();
+            var context = serviceScope.ServiceProvider.GetRequiredService<IDataBaseContext>();
             if (context.Database.EnsureCreated())
             {
                 context.Usuario.Add(new USUARIO

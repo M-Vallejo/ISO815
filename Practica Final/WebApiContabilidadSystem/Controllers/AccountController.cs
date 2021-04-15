@@ -23,10 +23,10 @@ namespace WebApiContabilidadSystem.Controllers
     [ApiController]
     public class AccountController : ControllerBase
     {
-        readonly ContabilidadDbContext _db;
+        readonly IDataBaseContext _db;
         private readonly AppSettings _appSettings;
 
-        public AccountController(ContabilidadDbContext _dbContext, IOptions<AppSettings> appSetting)
+        public AccountController(IDataBaseContext _dbContext, IOptions<AppSettings> appSetting)
         {
             _db = _dbContext;
             _appSettings = appSetting.Value;

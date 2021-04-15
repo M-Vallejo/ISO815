@@ -14,8 +14,8 @@ namespace WebApiContabilidadSystem.Controllers
     [Authorize]
     public class ConceptoPagoController : ControllerBase
     {
-        private readonly ContabilidadDbContext _db;
-        public ConceptoPagoController(ContabilidadDbContext db)
+        private readonly IDataBaseContext _db;
+        public ConceptoPagoController(IDataBaseContext db)
         {
             _db = db;
         }

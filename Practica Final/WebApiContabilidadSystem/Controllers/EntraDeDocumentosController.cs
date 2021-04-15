@@ -24,10 +24,10 @@ namespace WebApiContabilidadSystem.Controllers
     [Authorize]
     public class EntraDeDocumentosController : ControllerBase
     {
-        private readonly ContabilidadDbContext _db;
+        private readonly IDataBaseContext _db;
         private readonly IConfiguration _conf;
 
-        public EntraDeDocumentosController(ContabilidadDbContext db, IConfiguration conf)
+        public EntraDeDocumentosController(IDataBaseContext db, IConfiguration conf)
         {
             _db = db;
             _conf = conf;

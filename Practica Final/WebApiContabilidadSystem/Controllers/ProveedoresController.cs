@@ -14,8 +14,8 @@ namespace WebApiContabilidadSystem.Controllers
     [Authorize]
     public class ProveedoresController : ControllerBase
     {
-        private readonly ContabilidadDbContext _db;
-        public ProveedoresController(ContabilidadDbContext db)
+        private readonly IDataBaseContext _db;
+        public ProveedoresController(IDataBaseContext db)
         {
             _db = db;
         }

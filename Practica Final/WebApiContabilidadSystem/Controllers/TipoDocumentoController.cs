@@ -13,8 +13,8 @@ namespace WebApiContabilidadSystem.Controllers
     [Authorize]
     public class TipoDocumentoController : ControllerBase
     {
-        private readonly ContabilidadDbContext _db;
-        public TipoDocumentoController(ContabilidadDbContext db)
+        private readonly IDataBaseContext _db;
+        public TipoDocumentoController(IDataBaseContext db)
         {
             _db = db;
         }

@@ -15,8 +15,8 @@ namespace WebApiContabilidadSystem.Controllers
     [Authorize]
     public class UsuarioController : ControllerBase
     {
-        private readonly ContabilidadDbContext _db;
-        public UsuarioController(ContabilidadDbContext db)
+        private readonly IDataBaseContext _db;
+        public UsuarioController(IDataBaseContext db)
         {
             _db = db;
         }
