@@ -110,6 +110,11 @@
     0 - Fisica
     1 - Juridica
   ```
+- Estado pago
+  ```cs
+    0 - Pendiente
+    1 - Pagado
+  ```
 ### Integración contabilidad
 
 Clase `AccountingService/ServicioContabilidad` que contendrá la lógica necesaria para la integración con el web service de contabilidad. En esta clase debe haber un metodo que se encargará de enviarle los datos a contabilidad y recibir la información que ellos generen. Esa información será utilizada para actualizar las entradas de documentos que se utilizaron para enviar a contabilidad.
