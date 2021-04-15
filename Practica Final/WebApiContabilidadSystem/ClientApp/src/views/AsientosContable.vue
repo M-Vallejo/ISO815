@@ -143,55 +143,55 @@ export default {
         },
         validateAndSave() {
             if(this.items.length) {
-Swal
-                .fire({
-                    title: "¿Deseas contabilizar estos elementos?",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    allowEscapeKey: false,
-                    allowOutsideClick: false,
-                    confirmButtonText: "Si",
-                    cancelButtonText: "No",
-                    reverseButtons: true
-                })
-                .then((result) => {
-                    if (result.value) {
-                        Swal.fire({
-                            title: "Espere por favor...",
-                            allowEscapeKey: false,
-                            allowOutsideClick: false,
-                            showConfirmButton: false,
-                            didOpen: () => {
-                                Swal.showLoading();
-                                const ids = this.items.map(x=> x.id_transaccion);
-                                this.$http
-                                    .post("EntraDeDocumentos/Contabilizar", {
-                                        transactions: ids
-                                    })
-                                    .then((response) => {
-                                        this.isLoading = false;
-                                        if(response?.status == 200) {
-                                            this.clear();
+                Swal
+                    .fire({
+                        title: "¿Deseas contabilizar estos elementos?",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        allowEscapeKey: false,
+                        allowOutsideClick: false,
+                        confirmButtonText: "Si",
+                        cancelButtonText: "No",
+                        reverseButtons: true
+                    })
+                    .then((result) => {
+                        if (result.value) {
+                            Swal.fire({
+                                title: "Espere por favor...",
+                                allowEscapeKey: false,
+                                allowOutsideClick: false,
+                                showConfirmButton: false,
+                                didOpen: () => {
+                                    Swal.showLoading();
+                                    const ids = this.items.map(x=> x.id_transaccion);
+                                    this.$http
+                                        .post("EntraDeDocumentos/Contabilizar", {
+                                            transactions: ids
+                                        })
+                                        .then((response) => {
+                                            this.isLoading = false;
+                                            if(response?.status == 200) {
+                                                this.clear();
+                                                Swal.fire({
+                                                    title: "Elementos contabilizados exitosamente",
+                                                    icon: 'success',
+                                                });
+                                            } else {
+                                                Swal.fire({
+                                                    title: "Ha ocurrido un error",
+                                                    icon: 'danger'
+                                                });
+                                            }
+                                        }).catch(error => {
                                             Swal.fire({
-                                                title: "Elementos contabilizados exitosamente",
-                                                icon: 'success',
-                                            });
-                                        } else {
-                                            Swal.fire({
-                                                title: "Ha ocurrido un error",
+                                                title: `Ha ocurrido un error: ${error.message}`,
                                                 icon: 'danger'
                                             });
-                                        }
-                                    }).catch(error => {
-                                        Swal.fire({
-                                            title: `Ha ocurrido un error: ${error.message}`,
-                                            icon: 'danger'
                                         });
-                                    });
-                            }
-                        })
-                    }
-                })
+                                }
+                            })
+                        }
+                    })
             } else {
                 Swal
                 .fire({

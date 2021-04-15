@@ -81,7 +81,6 @@
                                                         <v-date-picker
                                                             ref="picker"
                                                             v-model="item.fecha_documento"
-                                                            :max="currentDate"
                                                             min="1950-01-01"
                                                         >
                                                         </v-date-picker>
@@ -145,7 +144,7 @@
                     </v-dialog>
                 </v-toolbar>
             </template>
-            
+
             <template v-slot:item.fecha_documento="{ item }">
                 <span>{{ item.fecha_documento ? new Date(item.fecha_documento).toDateString() : null }}</span>
             </template>
@@ -238,8 +237,7 @@ export default {
                     "id": 1,
                     "value": "Pagado"
                 }
-            ],
-            currentDate: null
+            ]
         }
     },
     mounted() {
@@ -247,7 +245,6 @@ export default {
         this.getProveedores();
         this.getEntradaDocumentos();
         this.item.fecha_documento = this.setToday();
-        this.currentDate = this.setToday();
     },
     computed: {
         formTitle() {
@@ -308,11 +305,11 @@ export default {
                 numero_factura.focus();
                 return false;
             }
-            if(!fecha_documento.checkValidity) {
+            if(!fecha_documento.checkValidity()) {
                 fecha_documento.focus();
                 return false;
             }
-            if(!monto.checkValidity || this.item.monto < 0) {
+            if(!monto.checkValidity() || this.item.monto < 0) {
                 monto.focus();
                 return false;
             }
@@ -371,7 +368,7 @@ export default {
                         });
                     }
                 });
-            } 
+            }
         },
         setToday() {
             let today = new Date();
