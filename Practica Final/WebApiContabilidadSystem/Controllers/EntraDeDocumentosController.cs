@@ -135,31 +135,51 @@ namespace WebApiContabilidadSystem.Controllers
         }
 
         [HttpPost]
-        public string Contabilizar ([FromBody] IEnumerable<int> documentosIds)
+        public ActionResult Contabilizar ([FromBody] IEnumerable<int> documentosIds)
         {
 
-            var documentos = _db.EntradaDocumento.Include("TIPO_DOCUMENTO")
-                        .Include("PROVEEDOR").Where(x => documentosIds.Contains(x.NUMERO_DOCUMENTO)).ToList();
-            var asiento = int.Parse(_conf.GetSection("AccountingSettings").GetSection("IdAuxiliar").Value);
-            var credito = int.Parse(_conf.GetSection("AccountingSettings").GetSection("CuentaCredito").Value);
-
-            var contabilidad = new ServicioContabilidad().Contabilizar(documentos, asiento, credito);
-            var contabilidadJson = System.Text.Json.JsonSerializer.Serialize(contabilidad);
-            var resquestContent = new StringContent(contabilidadJson, Encoding.UTF8, "application/json");
-            HttpClient client = new HttpClient();
-            client.BaseAddress = new Uri(_conf.GetSection("AccountingSettings").GetSection("Contabilizar").Value);
-
-            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-
-            var response = client.PostAsync("", resquestContent).Result;
-            if (response.IsSuccessStatusCode)
+            try
             {
-                Console.Write("Success");
-            }
-            else
-                Console.Write("Error");
-            return "";
+                var documentos = _db.EntradaDocumento.Include("TIPO_DOCUMENTO")
+                        .Include("PROVEEDOR").Where(x => documentosIds.Contains(x.NUMERO_DOCUMENTO)).ToList();
+                var asiento = int.Parse(_conf.GetSection("AccountingSettings").GetSection("IdAuxiliar").Value);
+                var credito = int.Parse(_conf.GetSection("AccountingSettings").GetSection("CuentaCredito").Value);
 
-    }
+                var contabilidad = new ServicioContabilidad().Contabilizar(documentos, asiento, credito);
+                var contabilidadJson = System.Text.Json.JsonSerializer.Serialize(contabilidad);
+                var resquestContent = new StringContent(contabilidadJson, Encoding.UTF8, "application/json");
+                HttpClient client = new HttpClient();
+                client.BaseAddress = new Uri(_conf.GetSection("AccountingSettings").GetSection("Contabilizar").Value);
+
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                var response = client.PostAsync("", resquestContent).Result;
+                if (response.IsSuccessStatusCode)
+                {
+                    var contents = response.Content.ReadAsStringAsync();
+                    var model = JsonConvert.DeserializeObject<ContabilidadViewModel>(contents.Result);
+
+                    foreach (var documento in documentos)
+                    {
+                        documento.ID_ASIENTO = model.id;
+                        documento.FECHA_PROCESO = model.entryDate == DateTime.MinValue ? null : model.entryDate;
+                    }
+
+
+                    _db.SaveChanges();
+                }
+                else
+                {
+                    return BadRequest("El api fallo");
+
+                }
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+            
+        }
     }
 }

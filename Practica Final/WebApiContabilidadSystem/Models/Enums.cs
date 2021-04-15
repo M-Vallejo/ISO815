@@ -28,4 +28,9 @@ namespace WebApiContabilidadSystem.Models
         Fisica = 0,
         Juridica = 1,
     }
+    public enum EstadoPago
+    {
+        Pendiente = 0,
+        Pago = 1
+    }
 }

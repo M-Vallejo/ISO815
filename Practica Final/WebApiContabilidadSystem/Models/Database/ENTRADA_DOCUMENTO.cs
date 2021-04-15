@@ -29,6 +29,7 @@ namespace WebApiContabilidadSystem.Models
         public string CONDICIONES { get; set; }
         [JsonPropertyName("fecha_registro")]
         public DateTime FECHA_REGISTRO { get; set; }
+        public DateTime? FECHA_PROCESO { get; set; }
         public int ESTADO { get; set; }
 
     }
