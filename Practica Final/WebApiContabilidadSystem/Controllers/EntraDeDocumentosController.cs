@@ -39,7 +39,6 @@ namespace WebApiContabilidadSystem.Controllers
             var p = _db.EntradaDocumento
                         .Include("TIPO_DOCUMENTO")
                         .Include("PROVEEDOR")
-                        .Where(x => x.ESTADO != (int)Estado.Eliminado)
                         .OrderByDescending(x => x.ESTADO);
             return p;
         }
@@ -58,7 +57,7 @@ namespace WebApiContabilidadSystem.Controllers
         {
             var target = _db.EntradaDocumento.Include("TIPO_DOCUMENTO")
                                              .Include("PROVEEDOR")
-                                             .FirstOrDefault(x => x.NUMERO_DOCUMENTO == id && x.ESTADO != (int)Estado.Eliminado);
+                                             .FirstOrDefault(x => x.NUMERO_DOCUMENTO == id);
 
             if (target != null)
             {
@@ -126,9 +125,7 @@ namespace WebApiContabilidadSystem.Controllers
             var result = _db.EntradaDocumento
                         .Include("TIPO_DOCUMENTO")
                         .Include("PROVEEDOR")
-                        .Where(x => 
-                                    x.ESTADO != (int)Estado.Eliminado 
-                                    && x.ID_ASIENTO == null 
+                        .Where(x => x.ID_ASIENTO == null 
                                     && x.FECHA_DOCUMENTO >= model.Desde.Date 
                                     && x.FECHA_DOCUMENTO <= model.Hasta.Date);
             return result;
