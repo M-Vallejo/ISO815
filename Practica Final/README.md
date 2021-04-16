@@ -6,7 +6,7 @@
   CREATE DATABASE CONTABILIDAD
   GO
   USE CONTABILIDAD
-```///
+```
 
 - Usuarios
   ```sql
